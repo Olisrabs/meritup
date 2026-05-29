@@ -83,8 +83,8 @@ export default function StepAddress({ data, onChange, onBack, onNext }: Props) {
         <div className="q-label">How much would you be willing to pay monthly for software that genuinely solved your biggest problem?</div>
         <div className="options-grid">
           {radio("Nothing, I won't pay", "Nothing, I won't pay for software")}
-          {radio("₦2,000-₦5,000", "₦2,000 – ₦5,000 / month")}
-          {radio("₦5,000-₦15,000", "₦5,000 – ₦15,000 / month")}
+          {radio("₦5,000-₦10,000", "₦5,000 – ₦10,000 / month")}
+          {radio("₦10,000-₦15,000", "₦10,000 – ₦15,000 / month")}
           {radio("₦15,000-₦30,000", "₦15,000 – ₦30,000 / month")}
           {radio("₦30,000+", "₦30,000+ / month if value is clear")}
         </div>

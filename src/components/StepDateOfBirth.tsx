@@ -56,7 +56,7 @@ export default function StepDateOfBirth({ data, onChange, onBack, onNext }: Prop
         <div className="options-grid">
           {checkbox("order_method", "WhatsApp", "WhatsApp message or call")}
           {checkbox("order_method", "Phone call", "Phone call only")}
-          {checkbox("order_method", "Sales rep visits", "Sales rep visits in person")}
+          {checkbox("order_method", "Visits in person", "Visits in person")}
           {checkbox("order_method", "Email", "Email")}
           {checkbox("order_method", "Online platform", "Online platform / website")}
         </div>
