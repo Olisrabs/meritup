@@ -40,7 +40,7 @@ export default function WelcomeScreen({ onContinue }: { onContinue: () => void }
             </div>
 
             <button className="btn-continue btn-continue-full" onClick={onContinue}>
-              Join the Waitlist — It's Free
+              Secure My Spot
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
