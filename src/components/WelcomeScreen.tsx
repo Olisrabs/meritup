@@ -23,7 +23,7 @@ export default function WelcomeScreen({ onContinue }: { onContinue: () => void }
               </span>
             </h1>
             <p style={{ fontSize: 14, color: "var(--gray-500)", lineHeight: 1.75, marginBottom: 28 }}>
-              MeritUp teaches you in-demand tech skills — from coding to digital marketing — and connects you to real income opportunities. Be among the first to get access.
+              MeritUp teaches you in-demand tech skills from coding to digital marketing, and connects you to real income opportunities. Be among the first to get access.
             </p>
 
             <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
@@ -78,7 +78,7 @@ export default function WelcomeScreen({ onContinue }: { onContinue: () => void }
           <div className="welcome-left-hero" style={{ position: "relative", zIndex: 1 }}>
             <h2>Learn Tech.<br />Earn Money.<br />Change Your Life.</h2>
             <p>
-              MeritUp is Africa's premier platform for learning high-income tech skills. From web development to digital marketing — we give youths and individuals the tools to build real careers and earn from day one.
+              MeritUp is Africa's premier platform for learning high-income tech skills. From web development to digital marketing, we give youths and individuals the tools to build real careers and earn from day one.
             </p>
 
             <div className="feature-pills" style={{ marginTop: 24 }}>
@@ -115,7 +115,7 @@ export default function WelcomeScreen({ onContinue }: { onContinue: () => void }
 
             <h1>Be First in Line.</h1>
             <p>
-              Join thousands of ambitious individuals ready to transform their lives with tech. Secure your spot now and get priority access when we launch — plus exclusive early-bird perks.
+              Join thousands of ambitious individuals ready to transform their lives with tech. Secure your spot now and get priority access when we launch, plus exclusive early-bird perks.
             </p>
 
             {/* Stats */}
