@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import AppHeader from "./AppHeader";
 
 interface FormShellProps {
@@ -74,7 +75,7 @@ export default function FormShell({
         <div className="fd-topbar">
           <div className="fd-brand">
             <div className="fd-brand-icon">
-              <img src="/logo.png" alt="MeritUp Logo" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+              <Image src="/logo.png" alt="MeritUp Logo" width={34} height={34} style={{ objectFit: "contain" }} priority />
             </div>
             <span className="fd-brand-name">MERIT_UP</span>
           </div>

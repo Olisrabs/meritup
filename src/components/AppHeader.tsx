@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 // Shared MeritUp app header
 export default function AppHeader({
   showBack = false,
@@ -12,7 +14,7 @@ export default function AppHeader({
       {/* Brand */}
       <div className="brand-row">
         <div className="brand-icon">
-          <img src="/logo.png" alt="MeritUp Logo" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+          <Image src="/logo.png" alt="MeritUp Logo" width={32} height={32} style={{ objectFit: "contain" }} priority />
         </div>
         <span className="brand-name">MERIT_UP</span>
       </div>

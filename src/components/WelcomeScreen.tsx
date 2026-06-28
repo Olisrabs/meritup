@@ -70,7 +70,7 @@ export default function WelcomeScreen({ onContinue }: { onContinue: () => void }
           {/* Content sits above overlay */}
           <div className="welcome-left-brand" style={{ position: "relative", zIndex: 1 }}>
             <div className="b-icon-lg">
-              <img src="/logo.png" alt="MeritUp Logo" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+              <Image src="/logo.png" alt="MeritUp Logo" width={40} height={40} style={{ objectFit: "contain" }} priority />
             </div>
             <span className="b-name-lg">MERIT_UP</span>
           </div>
