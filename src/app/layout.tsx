@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "MeritUp — Learn Tech. Earn Money. Join the Waitlist.",
+  title: "MeritUp: Learn Tech. Earn Money. Join the Waitlist.",
   description:
     "MeritUp is Africa's premier tech skills platform for youths and individuals ready to earn from technology. Join our exclusive waitlist and refer friends to unlock rewards.",
 };

@@ -64,30 +64,38 @@ export default function PartnerPage() {
       {step === 0 && (
         <>
           {/* ── MOBILE ── */}
-          <div className="page-shell">
-            <div className="mobile-card">
-              <AppHeader />
+          <div className="page-shell" style={{ 
+            background: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), url('/handshake.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundAttachment: "fixed" 
+          }}>
+            <div className="mobile-card" style={{ background: "transparent", boxShadow: "none" }}>
+              <div style={{ padding: "16px 20px 8px", display: "flex", alignItems: "center", gap: 8 }}>
+                <img src="/logo.png" alt="MeritUp Logo" width={32} height={32} style={{ objectFit: "contain" }} />
+                <span style={{ fontSize: 18, fontWeight: 800, color: "white", letterSpacing: "-0.5px" }}>MERIT_UP</span>
+              </div>
               <div className="card-content fade-up" style={{ display: "flex", flexDirection: "column", justifyContent: "center", flex: 1 }}>
                 <div style={{ marginBottom: 14 }}>
-                  <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "var(--brand-light)", color: "var(--brand)", fontSize: 11, fontWeight: 700, letterSpacing: ".6px", textTransform: "uppercase", padding: "5px 12px", borderRadius: 50 }}>
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.25)", color: "white", fontSize: 11, fontWeight: 700, letterSpacing: ".6px", textTransform: "uppercase", padding: "5px 12px", borderRadius: 50 }}>
                     🤝 Partner Program
                   </span>
                 </div>
-                <h1 style={{ fontSize: 26, fontWeight: 900, color: "var(--gray-900)", lineHeight: 1.2, letterSpacing: -0.8, marginBottom: 14 }}>
+                <h1 style={{ fontSize: 28, fontWeight: 900, color: "white", lineHeight: 1.2, letterSpacing: -0.8, marginBottom: 14 }}>
                   Promote MeritUp.<br />
                   <span style={{ background: "var(--gradient)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
                     Earn Commissions.
                   </span>
                 </h1>
-                <p style={{ fontSize: 14, color: "var(--gray-500)", lineHeight: 1.75, marginBottom: 28 }}>
+                <p style={{ fontSize: 15, color: "rgba(255,255,255,0.85)", lineHeight: 1.75, marginBottom: 28 }}>
                   Partner with Africa's premier tech skills platform. Promote MeritUp to your audience and earn money for every successful referral.
                 </p>
 
-                <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 32 }}>
                   {["Exclusive referral codes for your audience", "High conversion rates", "Timely payouts directly to your bank account"].map((item) => (
-                    <div key={item} style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13, color: "var(--gray-700)", fontWeight: 500 }}>
-                      <div style={{ width: 20, height: 20, borderRadius: "50%", background: "var(--brand-light)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <div key={item} style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 14, color: "rgba(255,255,255,0.95)", fontWeight: 500 }}>
+                      <div style={{ width: 22, height: 22, borderRadius: "50%", background: "rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                           <polyline points="20 6 9 17 4 12" />
                         </svg>
                       </div>
@@ -109,10 +117,12 @@ export default function PartnerPage() {
           {/* ── DESKTOP ── */}
           <div className="welcome-desktop fade-up">
             <div className="welcome-left" style={{ position: "relative", overflow: "hidden" }}>
-              {/* Gradient background */}
+              {/* Image background with gradient overlay */}
               <div style={{
                 position: "absolute", inset: 0,
-                background: "linear-gradient(150deg, #050505 0%, #121212 40%, #1e1e1e 75%, #dfab2e 100%)",
+                background: "linear-gradient(150deg, rgba(5,5,5,0.85) 0%, rgba(18,18,18,0.7) 40%, rgba(30,30,30,0.8) 75%, rgba(223,171,46,0.6) 100%), url('/handshake.png')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
               }} />
               {/* Subtle pattern overlay */}
               <div style={{
