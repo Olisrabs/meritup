@@ -5,11 +5,36 @@ export interface WaitlistData {
   phone_number: string;
   email?: string;
   state: string;
+  university_level?: string;
+  skill_interest?: string;
+  current_status?: string;
+  hours_per_week?: string;
+  investment_readiness?: string;
+  biggest_obstacle?: string;
+  desired_change?: string;
   referral_code?: string; // code the user entered (who referred them)
 }
 
 export interface WaitlistResult {
   myReferralCode: string; // the unique code generated for this user
+}
+
+export interface PartnerData {
+  name: string;
+  phone: string;
+  email: string;
+  handle: string;
+  promotion_platform: string;
+  audience_size: string;
+  audience_makeup: string;
+  promoted_before: string;
+  bank_name: string;
+  account_number: string;
+  account_name: string;
+}
+
+export interface PartnerResult {
+  myReferralCode: string;
 }
 
 export async function submitWaitlist(data: WaitlistData): Promise<WaitlistResult> {
@@ -60,6 +85,13 @@ export async function submitWaitlist(data: WaitlistData): Promise<WaitlistResult
       phone: userPhone,
       email: data.email?.trim() || null,
       state: data.state,
+      university_level: data.university_level,
+      skill_interest: data.skill_interest,
+      current_status: data.current_status,
+      hours_per_week: data.hours_per_week,
+      investment_readiness: data.investment_readiness,
+      biggest_obstacle: data.biggest_obstacle,
+      desired_change: data.desired_change,
       referred_by: referrerPhone,
       my_referral_code: myReferralCode,
       submitted_at,
@@ -99,4 +131,52 @@ export async function submitWaitlist(data: WaitlistData): Promise<WaitlistResult
 export type SurveyData = WaitlistData;
 export async function submitSurvey(data: WaitlistData): Promise<WaitlistResult> {
   return submitWaitlist(data);
+}
+
+export async function submitPartner(data: PartnerData): Promise<PartnerResult> {
+  if (!supabase) {
+    throw new Error("Supabase is not initialized.");
+  }
+
+  const submitted_at = new Date().toISOString();
+  // Using phone as fallback referral code, but they can get a custom one later or maybe use their first name. 
+  // Let's use their first name + last 4 digits of phone as their referral code
+  const firstName = data.name.split(" ")[0].toUpperCase();
+  const phoneSuffix = data.phone.trim().slice(-4);
+  const myReferralCode = `${firstName}${phoneSuffix}`;
+
+  // Check if phone or email is already registered in partners
+  const { data: existingUser } = await supabase
+    .from("meritup_partners")
+    .select("phone, email")
+    .or(`phone.eq.${data.phone.trim()},email.eq.${data.email.trim()}`)
+    .maybeSingle();
+
+  if (existingUser) {
+    throw new Error("A partner with this phone number or email is already registered.");
+  }
+
+  const { error } = await supabase.from("meritup_partners").insert([
+    {
+      name: data.name,
+      phone: data.phone.trim(),
+      email: data.email.trim(),
+      handle: data.handle,
+      promotion_platform: data.promotion_platform,
+      audience_size: data.audience_size,
+      audience_makeup: data.audience_makeup,
+      promoted_before: data.promoted_before,
+      bank_name: data.bank_name,
+      account_number: data.account_number,
+      account_name: data.account_name,
+      referral_code: myReferralCode,
+      submitted_at,
+    },
+  ]);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return { myReferralCode };
 }

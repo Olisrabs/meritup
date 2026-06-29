@@ -5,14 +5,13 @@ import AppHeader from "./AppHeader";
 
 interface FormShellProps {
   step: number; // 1–5
+  totalSteps?: number;
   children: React.ReactNode;
   onBack: () => void;
   onNext: () => void;
   disabled?: boolean;
   continueLabel?: string;
 }
-
-const TOTAL = 1;
 
 const checkIcon = (
   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -34,6 +33,7 @@ const backIcon = (
 
 export default function FormShell({
   step,
+  totalSteps,
   children,
   onBack,
   onNext,
@@ -82,7 +82,7 @@ export default function FormShell({
 
           {/* Step tracker — numbered dots only */}
           <div className="fd-tracker">
-            {Array.from({ length: TOTAL }).map((_, i) => {
+            {Array.from({ length: totalSteps || 1 }).map((_, i) => {
               const status = getStatus(i);
               return (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 6 }}>
