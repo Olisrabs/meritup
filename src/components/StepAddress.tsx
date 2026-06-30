@@ -44,7 +44,7 @@ export default function StepAddress({ data, onChange, onBack, onNext }: Props) {
       <p className="step-badge">Your honest reaction &nbsp;·&nbsp; Step 4 of 5</p>
       <h1 className="page-title">What do you think of a solution?</h1>
 
-      {/* Q9 — Range slider */}
+      {/* Q9: Range slider */}
       <div className="q-block">
         <div className="q-num">Q9</div>
         <div className="q-label">

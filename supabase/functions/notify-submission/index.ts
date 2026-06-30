@@ -1,5 +1,5 @@
 // supabase/functions/notify-submission/index.ts
-// Deno runtime — deployed as a Supabase Edge Function
+// Deno runtime - deployed as a Supabase Edge Function
 // Sends an email notification via Resend whenever a survey is submitted.
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
@@ -34,11 +34,11 @@ serve(async (req: Request) => {
     const row = (label: string, value: string) => `
       <tr>
         <td style="padding:8px 12px;font-weight:600;color:#374151;background:#f9fafb;border-bottom:1px solid #e5e7eb;width:220px;vertical-align:top">${label}</td>
-        <td style="padding:8px 12px;color:#111827;border-bottom:1px solid #e5e7eb;vertical-align:top">${value || "—"}</td>
+        <td style="padding:8px 12px;color:#111827;border-bottom:1px solid #e5e7eb;vertical-align:top">${value || "-"}</td>
       </tr>`;
 
     const arr = (v: string[] | undefined) =>
-      Array.isArray(v) && v.length ? v.join(", ") : "—";
+      Array.isArray(v) && v.length ? v.join(", ") : "-";
 
     const html = `
 <!DOCTYPE html>
@@ -87,7 +87,7 @@ serve(async (req: Request) => {
       body: JSON.stringify({
         from: "MeritUp Waitlist <onboarding@resend.dev>",
         to: [NOTIFY_EMAIL],
-        subject: `🚀 New Waitlist Signup — ${data.name || "Anonymous"} · ${new Date(data.submitted_at).toLocaleDateString("en-GB")}`,
+        subject: `🚀 New Waitlist Signup: ${data.name || "Anonymous"} · ${new Date(data.submitted_at).toLocaleDateString("en-GB")}`,
         html,
       }),
     });

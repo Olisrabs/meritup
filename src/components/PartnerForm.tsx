@@ -29,6 +29,75 @@ const promotedOptions = [
   "Yes", "No"
 ];
 
+const OptionTiles = ({
+  options,
+  selected,
+  onSelect,
+}: {
+  options: string[];
+  selected: string;
+  onSelect: (val: string) => void;
+}) => {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "4px" }}>
+      {options.map((option) => {
+        const isSelected = selected === option;
+        return (
+          <button
+            key={option}
+            type="button"
+            onClick={() => onSelect(option)}
+            style={{
+              width: "100%",
+              padding: "14px 18px",
+              textAlign: "left",
+              background: isSelected ? "rgba(223, 171, 46, 0.08)" : "rgba(255, 255, 255, 0.02)",
+              border: isSelected ? "1.5px solid var(--brand)" : "1px solid rgba(255, 255, 255, 0.06)",
+              borderRadius: "var(--radius)",
+              color: isSelected ? "var(--gray-900)" : "var(--gray-700)",
+              fontSize: "14px",
+              fontWeight: isSelected ? 700 : 500,
+              cursor: "pointer",
+              transition: "all 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 12,
+            }}
+          >
+            <span>{option}</span>
+            {isSelected ? (
+              <span style={{
+                color: "#000000",
+                background: "var(--gradient)",
+                width: 20,
+                height: 20,
+                borderRadius: "50%",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "11px",
+                fontWeight: "bold",
+                boxShadow: "0 0 8px rgba(223, 171, 46, 0.4)"
+              }}>
+                ✓
+              </span>
+            ) : (
+              <span style={{
+                width: 20,
+                height: 20,
+                borderRadius: "50%",
+                border: "1px solid rgba(255, 255, 255, 0.15)",
+                display: "inline-flex"
+              }} />
+            )}
+          </button>
+        );
+      })}
+    </div>
+  );
+};
+
 export default function PartnerForm({
   data,
   onChange,
@@ -111,32 +180,36 @@ export default function PartnerForm({
         <>
           <h1 className="page-title">Your Audience</h1>
           <div className="q-block">
-            <div className="q-label">Where do you mostly promote?</div>
-            <select className="form-input" value={data.promotion_platform || ""} onChange={(e) => onChange("promotion_platform", e.target.value)}>
-              <option value="" disabled>Select an option...</option>
-              {platformOptions.map(o => <option key={o} value={o}>{o}</option>)}
-            </select>
+            <div className="q-label" style={{ marginBottom: "10px" }}>Where do you mostly promote?</div>
+            <OptionTiles
+              options={platformOptions}
+              selected={data.promotion_platform || ""}
+              onSelect={(val) => onChange("promotion_platform", val)}
+            />
           </div>
           <div className="q-block">
-            <div className="q-label">Roughly how many people see your content/posts?</div>
-            <select className="form-input" value={data.audience_size || ""} onChange={(e) => onChange("audience_size", e.target.value)}>
-              <option value="" disabled>Select an option...</option>
-              {sizeOptions.map(o => <option key={o} value={o}>{o}</option>)}
-            </select>
+            <div className="q-label" style={{ marginBottom: "10px" }}>Roughly how many people see your content/posts?</div>
+            <OptionTiles
+              options={sizeOptions}
+              selected={data.audience_size || ""}
+              onSelect={(val) => onChange("audience_size", val)}
+            />
           </div>
           <div className="q-block">
-            <div className="q-label">Who makes up most of your audience?</div>
-            <select className="form-input" value={data.audience_makeup || ""} onChange={(e) => onChange("audience_makeup", e.target.value)}>
-              <option value="" disabled>Select an option...</option>
-              {audienceOptions.map(o => <option key={o} value={o}>{o}</option>)}
-            </select>
+            <div className="q-label" style={{ marginBottom: "10px" }}>Who makes up most of your audience?</div>
+            <OptionTiles
+              options={audienceOptions}
+              selected={data.audience_makeup || ""}
+              onSelect={(val) => onChange("audience_makeup", val)}
+            />
           </div>
           <div className="q-block">
-            <div className="q-label">Have you promoted a paid program or product for commission before?</div>
-            <select className="form-input" value={data.promoted_before || ""} onChange={(e) => onChange("promoted_before", e.target.value)}>
-              <option value="" disabled>Select an option...</option>
-              {promotedOptions.map(o => <option key={o} value={o}>{o}</option>)}
-            </select>
+            <div className="q-label" style={{ marginBottom: "10px" }}>Have you promoted a paid program or product for commission before?</div>
+            <OptionTiles
+              options={promotedOptions}
+              selected={data.promoted_before || ""}
+              onSelect={(val) => onChange("promoted_before", val)}
+            />
           </div>
         </>
       )}

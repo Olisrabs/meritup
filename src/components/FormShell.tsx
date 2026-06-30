@@ -80,7 +80,7 @@ export default function FormShell({
             <span className="fd-brand-name">MERIT_UP</span>
           </div>
 
-          {/* Step tracker — numbered dots only */}
+          {/* Step tracker: numbered dots only */}
           <div className="fd-tracker">
             {Array.from({ length: totalSteps || 1 }).map((_, i) => {
               const status = getStatus(i);

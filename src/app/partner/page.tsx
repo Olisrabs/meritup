@@ -62,143 +62,242 @@ export default function PartnerPage() {
   return (
     <>
       {step === 0 && (
-        <>
-          {/* ── MOBILE ── */}
-          <div className="page-shell" style={{ 
-            background: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), url('/handshake.png')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundAttachment: "fixed" 
-          }}>
-            <div className="mobile-card" style={{ background: "transparent", boxShadow: "none" }}>
-              <div style={{ padding: "16px 20px 8px", display: "flex", alignItems: "center", gap: 8 }}>
-                <img src="/logo.png" alt="MeritUp Logo" width={32} height={32} style={{ objectFit: "contain" }} />
-                <span style={{ fontSize: 18, fontWeight: 800, color: "white", letterSpacing: "-0.5px" }}>MERIT_UP</span>
+        <div className="landing-page">
+          {/* Header */}
+          <header className="landing-header">
+            <div className="lh-container">
+              <div className="lh-brand">
+                <div className="lh-brand-icon">
+                  <img src="/logo.png" alt="MeritUp Logo" width={32} height={32} style={{ objectFit: "contain" }} />
+                </div>
+                <span className="lh-brand-name">MERIT_UP</span>
               </div>
-              <div className="card-content fade-up" style={{ display: "flex", flexDirection: "column", justifyContent: "center", flex: 1 }}>
-                <div style={{ marginBottom: 14 }}>
-                  <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.25)", color: "white", fontSize: 11, fontWeight: 700, letterSpacing: ".6px", textTransform: "uppercase", padding: "5px 12px", borderRadius: 50 }}>
-                    🤝 Partner Program
-                  </span>
-                </div>
-                <h1 style={{ fontSize: 28, fontWeight: 900, color: "white", lineHeight: 1.2, letterSpacing: -0.8, marginBottom: 14 }}>
-                  Promote MeritUp.<br />
-                  <span style={{ background: "var(--gradient)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-                    Earn Commissions.
-                  </span>
-                </h1>
-                <p style={{ fontSize: 15, color: "rgba(255,255,255,0.85)", lineHeight: 1.75, marginBottom: 28 }}>
-                  Partner with Africa's premier tech skills platform. Promote MeritUp to your audience and earn money for every successful referral.
-                </p>
+              <button className="lh-btn" onClick={() => setStep(1)}>
+                Apply Now
+              </button>
+            </div>
+          </header>
 
-                <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 32 }}>
-                  {["Exclusive referral codes for your audience", "High conversion rates", "Timely payouts directly to your bank account"].map((item) => (
-                    <div key={item} style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 14, color: "rgba(255,255,255,0.95)", fontWeight: 500 }}>
-                      <div style={{ width: 22, height: 22, borderRadius: "50%", background: "rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
-                      </div>
-                      {item}
-                    </div>
-                  ))}
-                </div>
-
-                <button className="btn-continue btn-continue-full" onClick={() => setStep(1)}>
-                  Apply Now
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
+          {/* HERO */}
+          <section className="hero-section partner-hero">
+            <div className="hero-glow"></div>
+            <div className="ls-container" style={{ position: "relative", zIndex: 1 }}>
+              <div className="hero-badge">
+                🤝 Partner Program
+              </div>
+              <h1 className="hero-title" style={{ color: "white" }}>
+                Get Paid to Introduce Students to Their Breakthrough
+              </h1>
+              <p className="hero-subtitle" style={{ color: "rgba(255,255,255,0.7)" }}>
+                Partner with MERIT_UP. Share the program. Earn 15% on every student who enrolls through you. No cost to join, no cap on what you can earn.
+              </p>
+              <div className="hero-cta-group">
+                <button className="hero-btn" onClick={() => setStep(1)}>
+                  Apply to Become a Partner
                 </button>
+                <span className="hero-microcopy" style={{ color: "rgba(255,255,255,0.5)" }}>
+                  Takes 2 minutes · Review response within 48h
+                </span>
               </div>
             </div>
-          </div>
+          </section>
 
-          {/* ── DESKTOP ── */}
-          <div className="welcome-desktop fade-up">
-            <div className="welcome-left" style={{ position: "relative", overflow: "hidden" }}>
-              {/* Image background with gradient overlay */}
-              <div style={{
-                position: "absolute", inset: 0,
-                background: "linear-gradient(150deg, rgba(5,5,5,0.85) 0%, rgba(18,18,18,0.7) 40%, rgba(30,30,30,0.8) 75%, rgba(223,171,46,0.6) 100%), url('/handshake.png')",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }} />
-              {/* Subtle pattern overlay */}
-              <div style={{
-                position: "absolute", inset: 0,
-                backgroundImage: "radial-gradient(circle at 20% 80%, rgba(223,171,46,0.06) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(223,171,46,0.08) 0%, transparent 50%)",
-              }} />
-
-              {/* Content sits above overlay */}
-              <div className="welcome-left-brand" style={{ position: "relative", zIndex: 1 }}>
-                <div className="b-icon-lg">
-                  <img src="/logo.png" alt="MeritUp Logo" width={40} height={40} style={{ objectFit: "contain" }} />
-                </div>
-                <span className="b-name-lg">MERIT_UP</span>
-              </div>
-
-              <div className="welcome-left-hero" style={{ position: "relative", zIndex: 1 }}>
-                <h2>Promote MeritUp.<br />Earn Commissions.<br />Grow Together.</h2>
-                <p>
-                  Partner with Africa's premier platform for learning high-income tech skills. Bring your audience to MeritUp and get rewarded for every single successful student you refer.
+          {/* WHAT IS MERIT_UP */}
+          <section className="landing-section">
+            <div className="ls-container">
+              <h2 className="section-title">What is MERIT_UP?</h2>
+              <p className="section-subtitle">
+                MERIT_UP is a 6-month program teaching Nigerian university students copywriting, design, video editing, or social media management, with weekly mentorship, not just videos. Students go from confused and broke to having a real, working income system.
+              </p>
+              <div className="system-summary-box" style={{ marginTop: 24 }}>
+                <p style={{ fontSize: "16px", color: "var(--gray-900)", fontWeight: 600 }}>
+                  💡 You already know people who need this. Now you can get paid for connecting them to it.
                 </p>
-
-                <div className="feature-pills" style={{ marginTop: 24 }}>
-                  {["🤝 Trusted Platform", "💸 High Conversions", "⚡ Timely Payouts", "📈 Track Referrals"].map((pill) => (
-                    <span key={pill} className="feature-pill">{pill}</span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="welcome-left-footer" style={{ position: "relative", zIndex: 1 }}>
-                <div className="welcome-meta">
-                  <span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    Fast application
-                  </span>
-                  <span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                    Secure & Private
-                  </span>
-                </div>
               </div>
             </div>
+          </section>
 
-            {/* Right white panel */}
-            <div className="welcome-right">
-              <div className="welcome-card">
-                <div className="wc-eyebrow">
-                  🌟 Applications Open
-                </div>
-
-                <h1>Become a Partner.</h1>
-                <p>
-                  Join our network of ambassadors, content creators, and community leaders. Apply to get your custom referral link today.
-                </p>
-
-                {/* Stats */}
-                <div className="wc-stats">
-                  <div className="wc-stat">
-                    <div className="wc-stat-num">50+</div>
-                    <div className="wc-stat-label">Active Partners</div>
-                  </div>
-                  <div className="wc-stat">
-                    <div className="wc-stat-num">∞</div>
-                    <div className="wc-stat-label">Earning Potential</div>
+          {/* WHY PARTNER WITH US */}
+          <section className="landing-section" style={{ background: "var(--gray-100)" }}>
+            <div className="ls-container">
+              <h2 className="section-title">Why Partner With Us?</h2>
+              <p className="section-subtitle">A program built to support both you and the students you refer.</p>
+              
+              <div className="quotes-grid">
+                <div className="quote-card" style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+                  <div style={{
+                    background: "rgba(223, 171, 46, 0.08)",
+                    border: "1px solid rgba(223, 171, 46, 0.2)",
+                    borderRadius: "6px",
+                    width: 24,
+                    height: 24,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "var(--brand)",
+                    fontWeight: "bold",
+                    fontSize: "12px",
+                    flexShrink: 0
+                  }}>✓</div>
+                  <div>
+                    <h4 style={{ color: "var(--gray-900)", fontSize: "15px", fontWeight: 700, marginBottom: 4 }}>Zero cost to join</h4>
+                    <p style={{ fontSize: "13.5px", color: "var(--gray-500)", lineHeight: 1.5 }}>no investment, no inventory, no upfront fee.</p>
                   </div>
                 </div>
-
-                <button className="btn-continue" onClick={() => setStep(1)} style={{ padding: "15px 32px", fontSize: 15, width: "100%", justifyContent: "center" }}>
-                  Apply Now
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </button>
+                <div className="quote-card" style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+                  <div style={{
+                    background: "rgba(223, 171, 46, 0.08)",
+                    border: "1px solid rgba(223, 171, 46, 0.2)",
+                    borderRadius: "6px",
+                    width: 24,
+                    height: 24,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "var(--brand)",
+                    fontWeight: "bold",
+                    fontSize: "12px",
+                    flexShrink: 0
+                  }}>✓</div>
+                  <div>
+                    <h4 style={{ color: "var(--gray-900)", fontSize: "15px", fontWeight: 700, marginBottom: 4 }}>15% commission</h4>
+                    <p style={{ fontSize: "13.5px", color: "var(--gray-500)", lineHeight: 1.5 }}>on every referred student who enrolls and pays.</p>
+                  </div>
+                </div>
+                <div className="quote-card" style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+                  <div style={{
+                    background: "rgba(223, 171, 46, 0.08)",
+                    border: "1px solid rgba(223, 171, 46, 0.2)",
+                    borderRadius: "6px",
+                    width: 24,
+                    height: 24,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "var(--brand)",
+                    fontWeight: "bold",
+                    fontSize: "12px",
+                    flexShrink: 0
+                  }}>✓</div>
+                  <div>
+                    <h4 style={{ color: "var(--gray-900)", fontSize: "15px", fontWeight: 700, marginBottom: 4 }}>No ceiling</h4>
+                    <p style={{ fontSize: "13.5px", color: "var(--gray-500)", lineHeight: 1.5 }}>refer 5 students or 500, the math scales the same way.</p>
+                  </div>
+                </div>
+                <div className="quote-card" style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+                  <div style={{
+                    background: "rgba(223, 171, 46, 0.08)",
+                    border: "1px solid rgba(223, 171, 46, 0.2)",
+                    borderRadius: "6px",
+                    width: 24,
+                    height: 24,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "var(--brand)",
+                    fontWeight: "bold",
+                    fontSize: "12px",
+                    flexShrink: 0
+                  }}>✓</div>
+                  <div>
+                    <h4 style={{ color: "var(--gray-900)", fontSize: "15px", fontWeight: 700, marginBottom: 4 }}>Easy to share</h4>
+                    <p style={{ fontSize: "13.5px", color: "var(--gray-500)", lineHeight: 1.5 }}>we give you ready-made captions, links, and visuals. You don't write a thing.</p>
+                  </div>
+                </div>
+                <div className="quote-card" style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+                  <div style={{
+                    background: "rgba(223, 171, 46, 0.08)",
+                    border: "1px solid rgba(223, 171, 46, 0.2)",
+                    borderRadius: "6px",
+                    width: 24,
+                    height: 24,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "var(--brand)",
+                    fontWeight: "bold",
+                    fontSize: "12px",
+                    flexShrink: 0
+                  }}>✓</div>
+                  <div>
+                    <h4 style={{ color: "var(--gray-900)", fontSize: "15px", fontWeight: 700, marginBottom: 4 }}>You're solving a real problem</h4>
+                    <p style={{ fontSize: "13.5px", color: "var(--gray-500)", lineHeight: 1.5 }}>not pushing a random product. Every student you bring in is someone who actually needs this.</p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </>
+          </section>
+
+          {/* HOW IT WORKS */}
+          <section className="landing-section">
+            <div className="ls-container">
+              <h2 className="section-title">How It Works</h2>
+              <p className="section-subtitle">Get started in 4 simple steps.</p>
+
+              <div className="system-timeline">
+                <div className="timeline-item">
+                  <div className="timeline-dot">1</div>
+                  <div className="timeline-content">
+                    <h4 className="timeline-title">Apply below</h4>
+                    <p className="timeline-desc">Takes less than 2 minutes to fill out details.</p>
+                  </div>
+                </div>
+                <div className="timeline-item">
+                  <div className="timeline-dot">2</div>
+                  <div className="timeline-content">
+                    <h4 className="timeline-title">Get approved</h4>
+                    <p className="timeline-desc">We review publisher applications within 24–48 hours.</p>
+                  </div>
+                </div>
+                <div className="timeline-item">
+                  <div className="timeline-dot">3</div>
+                  <div className="timeline-content">
+                    <h4 className="timeline-title">Get your tracking link</h4>
+                    <p className="timeline-desc">Share it with your student audience or youth communities.</p>
+                  </div>
+                </div>
+                <div className="timeline-item">
+                  <div className="timeline-dot">4</div>
+                  <div className="timeline-content">
+                    <h4 className="timeline-title">Earn 15% commission</h4>
+                    <p className="timeline-desc">Every time someone signs up through your link and enrolls in the paid program, you get paid.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="system-summary-box" style={{ background: "rgba(223, 171, 46, 0.08)", border: "1px solid rgba(223, 171, 46, 0.3)" }}>
+                <p style={{ fontSize: "13.5px", color: "var(--gray-900)", lineHeight: 1.6, textAlign: "left" }}>
+                  <strong>Important:</strong> Commission is paid on <em>enrollment</em>, not just sign-ups. If 50 people click your link but only 5 enroll, you're paid on those 5, but there's no limit on how many of your 50 can convert.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* CTA SECTION */}
+          <section className="landing-section" style={{ background: "var(--gray-100)", borderBottom: "none", textAlign: "center" }}>
+            <div className="ls-container">
+              <h2 className="section-title">Ready to Partner?</h2>
+              <p className="section-subtitle">
+                Join our network of ambassadors, content creators, and community leaders.
+              </p>
+              <div className="hero-cta-group" style={{ marginTop: 12 }}>
+                <button className="hero-btn" onClick={() => setStep(1)}>
+                  Apply to Become a Partner
+                </button>
+                <span className="hero-microcopy">
+                  We review every application personally. You'll hear back within 48 hours.
+                </span>
+              </div>
+            </div>
+          </section>
+
+          {/* Footer */}
+          <footer style={{ background: "var(--gray-50)", borderTop: "1px solid var(--gray-200)", padding: "30px 24px", textAlign: "center", fontSize: "13px", color: "var(--gray-400)" }}>
+            <div className="ls-container">
+              <p>© {new Date().getFullYear()} MeritUp. All rights reserved.</p>
+            </div>
+          </footer>
+        </div>
       )}
 
       {step === 1 && (
@@ -222,6 +321,7 @@ export default function PartnerPage() {
             setMyReferralCode("");
             setStep(0);
           }}
+          isPartner={true}
         />
       )}
     </>

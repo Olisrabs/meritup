@@ -8,11 +8,13 @@ export default function SuccessScreen({
   isDuplicate,
   referralCode,
   onRestart,
+  isPartner = false,
 }: {
   name?: string;
   isDuplicate?: boolean;
   referralCode?: string;
   onRestart: () => void;
+  isPartner?: boolean;
 }) {
   const [copied, setCopied] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
@@ -29,13 +31,13 @@ export default function SuccessScreen({
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     } catch {
-      // fallback: select input text
+      // fallback
     }
   };
 
   const handleCopyCode = async () => {
     if (!referralCode) return;
-    const writeup = `Join the MeritUp waitlist to learn tech skills and earn money! Use my phone number "${referralCode}" as your referral code when you sign up at: ${baseUrl}`;
+    const writeup = `Join the MeritUp waitlist to get a clear, step-by-step path to your first income online with weekly mentorship! Use my phone number "${referralCode}" as your referral code when you sign up at: ${baseUrl}`;
     try {
       await navigator.clipboard.writeText(writeup);
       setCopiedCode(true);
@@ -45,7 +47,68 @@ export default function SuccessScreen({
     }
   };
 
-  const content = (
+  const content = isPartner ? (
+    <>
+      <div className="success-icon" style={{ background: "var(--brand-light)", color: "var(--brand)" }}>
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+      </div>
+      <h1 className="success-title">You're In the Queue.</h1>
+      <p className="success-sub" style={{ maxWidth: "420px", marginBottom: "24px" }}>
+        We're reviewing your application now. Once approved, you'll receive:
+      </p>
+      
+      <div style={{ 
+        textAlign: "left", 
+        background: "rgba(255, 255, 255, 0.01)", 
+        border: "1px solid rgba(255, 255, 255, 0.05)", 
+        borderRadius: "var(--radius)", 
+        padding: "20px 24px", 
+        width: "100%",
+        maxWidth: "400px",
+        margin: "0 auto 24px"
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "14px", color: "var(--gray-900)", marginBottom: 12 }}>
+          <span style={{ color: "var(--brand)", fontWeight: "bold" }}>✦</span>
+          <span>Your unique referral link</span>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "14px", color: "var(--gray-900)", marginBottom: 12 }}>
+          <span style={{ color: "var(--brand)", fontWeight: "bold" }}>✦</span>
+          <span>Ready-to-post captions and graphics</span>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "14px", color: "var(--gray-900)" }}>
+          <span style={{ color: "var(--brand)", fontWeight: "bold" }}>✦</span>
+          <span>A breakdown of exactly how and when you get paid</span>
+        </div>
+      </div>
+
+      <div style={{ 
+        background: "var(--brand-light)", 
+        border: "1px solid rgba(223, 171, 46, 0.3)", 
+        borderRadius: "var(--radius)", 
+        padding: "12px 18px", 
+        fontSize: "13px", 
+        fontWeight: 600, 
+        color: "var(--brand)",
+        maxWidth: "400px",
+        margin: "0 auto 24px",
+        lineHeight: 1.5,
+      }}>
+        💬 Check your WhatsApp. That's where we'll reach you first.
+      </div>
+
+      <button className="btn-continue" onClick={onRestart} style={{ 
+        marginTop: 12, 
+        background: "transparent", 
+        color: "var(--gray-500)", 
+        border: "1px solid rgba(255, 255, 255, 0.15)",
+        boxShadow: "none"
+      }}>
+        Back to Start
+      </button>
+    </>
+  ) : (
     <>
       <div className="success-icon">
         <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -55,7 +118,7 @@ export default function SuccessScreen({
       <h1 className="success-title">{greeting}</h1>
       <p className="success-sub">
         {isDuplicate
-          ? "You're already on the waitlist — we love your enthusiasm! We'll notify you the moment MeritUp launches."
+          ? "You're already on the waitlist, we love your enthusiasm! We'll notify you the moment MeritUp launches."
           : "We'll notify you the moment we launch. In the meantime, refer friends and earn your way to the top of our leaderboard."}
       </p>
 
@@ -83,7 +146,7 @@ export default function SuccessScreen({
               onClick={handleCopyCode} 
               style={{
                 background: "var(--brand-light)",
-                border: "1px solid rgba(124, 58, 237, 0.15)",
+                border: "1px solid rgba(223, 171, 46, 0.3)",
                 color: "var(--brand)",
                 cursor: "pointer",
                 fontSize: "10px",
@@ -116,7 +179,13 @@ export default function SuccessScreen({
         Join our WhatsApp Group
       </a>
 
-      <button className="btn-continue" onClick={onRestart} style={{ marginTop: 12, background: "transparent", color: "var(--gray-500)", border: "1px solid var(--gray-300)" }}>
+      <button className="btn-continue" onClick={onRestart} style={{ 
+        marginTop: 12, 
+        background: "transparent", 
+        color: "var(--gray-500)", 
+        border: "1px solid rgba(255, 255, 255, 0.15)",
+        boxShadow: "none"
+      }}>
         Back to Start
       </button>
     </>

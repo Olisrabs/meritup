@@ -34,7 +34,7 @@ export default function StepFullName({ data, onChange, onBack, onNext }: Props) 
         <div className="q-label">What is your name and business name?</div>
         <div className="q-hint">First name is fine. We won't share this anywhere.</div>
         <input id="name" type="text" className="form-input"
-          placeholder="e.g. Emeka — Emeka Foods Ltd"
+          placeholder="e.g. Emeka - Emeka Foods Ltd"
           value={data.name} onChange={(e) => onChange("name", e.target.value)} />
       </div>
 

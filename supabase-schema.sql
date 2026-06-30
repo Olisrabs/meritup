@@ -1,5 +1,5 @@
 -- ============================================================
---  MeritUp Waitlist — Supabase Schema
+--  MeritUp Waitlist: Supabase Schema
 --  Run this in: Dashboard → SQL Editor → New Query → Run
 -- ============================================================
 
