@@ -22,7 +22,7 @@ const sizeOptions = [
 ];
 
 const audienceOptions = [
-  "University students", "Youth (general)", "Mixed/international", "Not sure"
+  "Students", "Youth (general)", "Mixed/international", "Not sure"
 ];
 
 const promotedOptions = [
@@ -33,24 +33,88 @@ const OptionTiles = ({
   options,
   selected,
   onSelect,
+  name,
 }: {
   options: string[];
   selected: string;
   onSelect: (val: string) => void;
+  name?: string;
 }) => {
+  const hasSelection = selected.trim() !== "";
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "4px" }}>
       {options.map((option) => {
         const isSelected = selected === option;
+        const isDeactivated = hasSelection && !isSelected;
+
         return (
-          <button
+          <label
             key={option}
-            type="button"
-            onClick={() => onSelect(option)}
             style={{
               width: "100%",
               padding: "14px 18px",
-              textAlign: "left",
+              background: isSelected ? "rgba(223, 171, 46, 0.08)" : "rgba(255, 255, 255, 0.02)",
+              border: isSelected ? "1.5px solid var(--brand)" : "1px solid rgba(255, 255, 255, 0.06)",
+              borderRadius: "var(--radius)",
+              color: isSelected ? "var(--gray-900)" : "var(--gray-700)",
+              fontSize: "14px",
+              fontWeight: isSelected ? 700 : 500,
+              cursor: "pointer",
+              transition: "all 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 12,
+              opacity: isDeactivated ? 0.4 : 1,
+            }}
+          >
+            <span>{option}</span>
+            <input 
+              type="radio" 
+              name={name || "partner-radio"} 
+              value={option} 
+              checked={isSelected} 
+              onChange={() => onSelect(option)}
+              style={{ width: "18px", height: "18px", accentColor: "var(--brand)", cursor: "pointer" }}
+            />
+          </label>
+        );
+      })}
+    </div>
+  );
+};
+
+const CheckboxTiles = ({
+  options,
+  selectedValues,
+  onSelect,
+}: {
+  options: string[];
+  selectedValues: string;
+  onSelect: (val: string) => void;
+}) => {
+  const currentSet = new Set(selectedValues ? selectedValues.split(', ') : []);
+  
+  const toggle = (val: string) => {
+    if (currentSet.has(val)) {
+      currentSet.delete(val);
+    } else {
+      currentSet.add(val);
+    }
+    onSelect(Array.from(currentSet).join(', '));
+  };
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "4px" }}>
+      {options.map((option) => {
+        const isSelected = currentSet.has(option);
+        return (
+          <label
+            key={option}
+            style={{
+              width: "100%",
+              padding: "14px 18px",
               background: isSelected ? "rgba(223, 171, 46, 0.08)" : "rgba(255, 255, 255, 0.02)",
               border: isSelected ? "1.5px solid var(--brand)" : "1px solid rgba(255, 255, 255, 0.06)",
               borderRadius: "var(--radius)",
@@ -66,32 +130,13 @@ const OptionTiles = ({
             }}
           >
             <span>{option}</span>
-            {isSelected ? (
-              <span style={{
-                color: "#000000",
-                background: "var(--gradient)",
-                width: 20,
-                height: 20,
-                borderRadius: "50%",
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "11px",
-                fontWeight: "bold",
-                boxShadow: "0 0 8px rgba(223, 171, 46, 0.4)"
-              }}>
-                ✓
-              </span>
-            ) : (
-              <span style={{
-                width: 20,
-                height: 20,
-                borderRadius: "50%",
-                border: "1px solid rgba(255, 255, 255, 0.15)",
-                display: "inline-flex"
-              }} />
-            )}
-          </button>
+            <input 
+              type="checkbox" 
+              checked={isSelected} 
+              onChange={() => toggle(option)}
+              style={{ width: "18px", height: "18px", accentColor: "var(--brand)", cursor: "pointer" }}
+            />
+          </label>
         );
       })}
     </div>
@@ -180,16 +225,17 @@ export default function PartnerForm({
         <>
           <h1 className="page-title">Your Audience</h1>
           <div className="q-block">
-            <div className="q-label" style={{ marginBottom: "10px" }}>Where do you mostly promote?</div>
-            <OptionTiles
+            <div className="q-label" style={{ marginBottom: "10px" }}>Where do you mostly promote? (Select multiple)</div>
+            <CheckboxTiles
               options={platformOptions}
-              selected={data.promotion_platform || ""}
+              selectedValues={data.promotion_platform || ""}
               onSelect={(val) => onChange("promotion_platform", val)}
             />
           </div>
           <div className="q-block">
             <div className="q-label" style={{ marginBottom: "10px" }}>Roughly how many people see your content/posts?</div>
             <OptionTiles
+              name="audience_size"
               options={sizeOptions}
               selected={data.audience_size || ""}
               onSelect={(val) => onChange("audience_size", val)}
@@ -198,6 +244,7 @@ export default function PartnerForm({
           <div className="q-block">
             <div className="q-label" style={{ marginBottom: "10px" }}>Who makes up most of your audience?</div>
             <OptionTiles
+              name="audience_makeup"
               options={audienceOptions}
               selected={data.audience_makeup || ""}
               onSelect={(val) => onChange("audience_makeup", val)}
@@ -206,6 +253,7 @@ export default function PartnerForm({
           <div className="q-block">
             <div className="q-label" style={{ marginBottom: "10px" }}>Have you promoted a paid program or product for commission before?</div>
             <OptionTiles
+              name="promoted_before"
               options={promotedOptions}
               selected={data.promoted_before || ""}
               onSelect={(val) => onChange("promoted_before", val)}

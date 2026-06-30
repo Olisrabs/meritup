@@ -67,24 +67,27 @@ const OptionTiles = ({
   options,
   selected,
   onSelect,
+  name,
 }: {
   options: string[];
   selected: string;
   onSelect: (val: string) => void;
+  name?: string;
 }) => {
+  const hasSelection = selected.trim() !== "";
+  
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "4px" }}>
       {options.map((option) => {
         const isSelected = selected === option;
+        const isDeactivated = hasSelection && !isSelected;
+        
         return (
-          <button
+          <label
             key={option}
-            type="button"
-            onClick={() => onSelect(option)}
             style={{
               width: "100%",
               padding: "14px 18px",
-              textAlign: "left",
               background: isSelected ? "rgba(223, 171, 46, 0.08)" : "rgba(255, 255, 255, 0.02)",
               border: isSelected ? "1.5px solid var(--brand)" : "1px solid rgba(255, 255, 255, 0.06)",
               borderRadius: "var(--radius)",
@@ -97,35 +100,19 @@ const OptionTiles = ({
               alignItems: "center",
               justifyContent: "space-between",
               gap: 12,
+              opacity: isDeactivated ? 0.4 : 1,
             }}
           >
             <span>{option}</span>
-            {isSelected ? (
-              <span style={{
-                color: "#000000",
-                background: "var(--gradient)",
-                width: 20,
-                height: 20,
-                borderRadius: "50%",
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "11px",
-                fontWeight: "bold",
-                boxShadow: "0 0 8px rgba(223, 171, 46, 0.4)"
-              }}>
-                ✓
-              </span>
-            ) : (
-              <span style={{
-                width: 20,
-                height: 20,
-                borderRadius: "50%",
-                border: "1px solid rgba(255, 255, 255, 0.15)",
-                display: "inline-flex"
-              }} />
-            )}
-          </button>
+            <input 
+              type="radio" 
+              name={name || "survey-radio"} 
+              value={option} 
+              checked={isSelected} 
+              onChange={() => onSelect(option)}
+              style={{ width: "18px", height: "18px", accentColor: "var(--brand)", cursor: "pointer" }}
+            />
+          </label>
         );
       })}
     </div>
@@ -161,7 +148,7 @@ export default function WaitlistForm({
 
   let isValid = false;
   if (currentStep === 1) {
-    isValid = data.name.trim() !== "" && data.phone_number.trim() !== "" && data.state !== "" && (data.university_level?.trim() || "") !== "";
+    isValid = data.name.trim() !== "" && data.phone_number.trim() !== "" && data.state !== "";
   } else if (currentStep === 2) {
     isValid = !!data.current_status && !!data.biggest_obstacle && !!data.desired_change;
   } else if (currentStep === 3) {
@@ -210,12 +197,6 @@ export default function WaitlistForm({
               {states.map(s => <option key={s} value={s}>{s}</option>)}
             </select>
           </div>
-          <div className="q-block">
-            <div className="q-label">University & Level</div>
-            <input type="text" className="form-input"
-              placeholder='e.g. "FUTA, 200L"'
-              value={data.university_level || ""} onChange={(e) => onChange("university_level", e.target.value)} />
-          </div>
         </>
       )}
 
@@ -225,6 +206,7 @@ export default function WaitlistForm({
           <div className="q-block">
             <div className="q-label" style={{ marginBottom: "10px" }}>Which of these sounds most like you right now?</div>
             <OptionTiles
+              name="current_status"
               options={statusOptions}
               selected={data.current_status || ""}
               onSelect={(val) => onChange("current_status", val)}
@@ -233,6 +215,7 @@ export default function WaitlistForm({
           <div className="q-block">
             <div className="q-label" style={{ marginBottom: "10px" }}>What's the ONE thing that has stopped you from succeeding online before?</div>
             <OptionTiles
+              name="biggest_obstacle"
               options={obstacleOptions}
               selected={data.biggest_obstacle || ""}
               onSelect={(val) => onChange("biggest_obstacle", val)}
@@ -241,6 +224,7 @@ export default function WaitlistForm({
           <div className="q-block">
             <div className="q-label" style={{ marginBottom: "10px" }}>If this works exactly as promised, what changes first for you?</div>
             <OptionTiles
+              name="desired_change"
               options={changeOptions}
               selected={data.desired_change || ""}
               onSelect={(val) => onChange("desired_change", val)}
@@ -255,6 +239,7 @@ export default function WaitlistForm({
           <div className="q-block">
             <div className="q-label" style={{ marginBottom: "10px" }}>Which skill pulls you in the most?</div>
             <OptionTiles
+              name="skill_interest"
               options={skillOptions}
               selected={data.skill_interest || ""}
               onSelect={(val) => onChange("skill_interest", val)}
@@ -263,6 +248,7 @@ export default function WaitlistForm({
           <div className="q-block">
             <div className="q-label" style={{ marginBottom: "10px" }}>How many hours a week can you realistically give this?</div>
             <OptionTiles
+              name="hours_per_week"
               options={hoursOptions}
               selected={data.hours_per_week || ""}
               onSelect={(val) => onChange("hours_per_week", val)}
@@ -271,6 +257,7 @@ export default function WaitlistForm({
           <div className="q-block">
             <div className="q-label" style={{ marginBottom: "10px" }}>If the system is proven to work, would you be ready to invest in yourself?</div>
             <OptionTiles
+              name="investment_readiness"
               options={investmentOptions}
               selected={data.investment_readiness || ""}
               onSelect={(val) => onChange("investment_readiness", val)}

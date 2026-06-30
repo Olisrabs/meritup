@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 interface FAQItem {
@@ -10,313 +10,331 @@ interface FAQItem {
 
 export default function WelcomeScreen({ onContinue }: { onContinue: () => void }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [isDark, setIsDark] = useState(true);
+  const [timeLeft, setTimeLeft] = useState({ days: 3, hours: 14, minutes: 23, seconds: 59 });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(prev => {
+        let { days, hours, minutes, seconds } = prev;
+        if (seconds > 0) { seconds--; }
+        else {
+          seconds = 59;
+          if (minutes > 0) { minutes--; }
+          else {
+            minutes = 59;
+            if (hours > 0) { hours--; }
+            else { hours = 23; if (days > 0) days--; }
+          }
+        }
+        return { days, hours, minutes, seconds };
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  }, [isDark]);
 
   const toggleFaq = (index: number) => {
     setOpenFaq(openFaq === index ? null : index);
   };
 
-  const faqs: FAQItem[] = [
-    {
-      q: "How do I know this isn't a scam?",
-      a: "We're not asking for program payment yet. Joining the waitlist is free. You'll get full details before any commitment, and every step is communicated directly, not hidden behind vague promises.",
-    },
-    {
-      q: "I don't have money to start.",
-      a: "The waitlist itself is free. Pricing details (and how payment is structured) will be shared with waitlist members first, before public announcement, so you have time to plan.",
-    },
-    {
-      q: "I'm a student, I don't have time.",
-      a: "The program is built around a realistic 3-month structure, with weekly (not daily) mentor sessions designed to fit around lectures and exams.",
-    },
-    {
-      q: "How long until I actually see results?",
-      a: "Most students start building their income system within the first few weeks and move into real earning by month 3, depending on consistency.",
-    },
-    {
-      q: "What if I start and don't finish, like before?",
-      a: "This is exactly the gap we built MeritUp to close. Weekly accountability check-ins mean you're never left to disappear quietly. Someone notices if you stop.",
-    },
-  ];
-
   return (
     <div className="landing-page">
       {/* Sticky Header */}
       <header className="landing-header">
-        <div className="lh-container">
-          <div className="lh-brand">
+        <div className="lh-container header-flex">
+          <div className="lh-brand header-brand">
             <div className="lh-brand-icon">
               <Image src="/logo.png" alt="MeritUp Logo" width={32} height={32} style={{ objectFit: "contain" }} priority />
             </div>
             <span className="lh-brand-name">MERIT_UP</span>
           </div>
-          <button className="lh-btn" onClick={onContinue}>
-            Secure My Spot
-          </button>
+          
+          <div className="header-actions">
+            <button 
+              className="theme-toggle" 
+              onClick={() => setIsDark(!isDark)}
+              title="Toggle Theme"
+            >
+              {isDark ? '☀️ Light' : '🌙 Dark'}
+            </button>
+            <button className="lh-btn" onClick={onContinue}>
+              Secure My Spot
+            </button>
+          </div>
         </div>
       </header>
 
       {/* SECTION 1: HERO */}
-      <section className="hero-section">
-        <div className="hero-glow" />
-        <div className="ls-container" style={{ position: "relative", zIndex: 1 }}>
-          <div className="hero-badge">
-            🚀 Cohort 1: 2000 Spots Only
-          </div>
-          <h1 className="hero-title">
-            You Don't Need Another Skill.<br />
-            <span style={{ background: "var(--gradient)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-              You Need Someone to Walk You There.
-            </span>
-          </h1>
-          <p className="hero-subtitle">
-            A clear, step-by-step path from zero to your first income online for university students who are tired of starting over.
-          </p>
-          <div className="hero-cta-group">
-            <button className="hero-btn" onClick={onContinue}>
-              Secure My Spot
-            </button>
-            <span className="hero-microcopy">
-              Takes 60 seconds · Cohort 1: 2000 spots only
-            </span>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 2: THE TRUTH NOBODY TELLS YOU */}
-      <section className="landing-section agitation-section">
-        <div className="ls-container">
-          <h2 className="section-title">You've Tried Before. That's Not the Problem.</h2>
-          <p className="section-subtitle" style={{ marginBottom: 24 }}>
-            You bought the course. You watched the videos. You even finished a few modules.
-            Then life happened: exams, no data, no clients, no clue what to do <em>next</em>, and the course sat there, unfinished, another tab closed forever.
-          </p>
-          <p style={{ textAlign: "center", fontSize: "15px", color: "var(--gray-500)", marginBottom: 32 }}>
-            That's not a "you" problem. That's what happens when someone hands you information and walks away.
-          </p>
-
-          <h3 style={{ fontSize: "17px", fontWeight: 700, color: "var(--gray-900)", marginBottom: 20, textAlign: "center" }}>
-            Here's what we kept hearing, over and over, from students just like you:
-          </h3>
-
-          <div className="quotes-grid">
-            <div className="quote-card">
-              <p className="quote-text">"I paid for two courses last year and didn't finish or implement them."</p>
+      <section className="hero-section responsive-section">
+        <div className="ls-container hero-split">
+          
+          {/* Left Column */}
+          <div className="hero-left">
+            <div className="hero-badge">
+              🚀 Cohort 1: 200 Spots Only | {String(timeLeft.days).padStart(2, '0')}:{String(timeLeft.hours).padStart(2, '0')}:{String(timeLeft.minutes).padStart(2, '0')}:{String(timeLeft.seconds).padStart(2, '0')}
             </div>
-            <div className="quote-card">
-              <p className="quote-text">"I have my page ready but nobody has purchased anything."</p>
-            </div>
-            <div className="quote-card">
-              <p className="quote-text">"I learned the skill for 3 months, still no jobs."</p>
-            </div>
-            <div className="quote-card">
-              <p className="quote-text">"I don't have the money to start, but I have the ideas."</p>
-            </div>
-          </div>
-
-          <p style={{ fontSize: "16px", color: "var(--gray-900)", fontWeight: 600, textAlign: "center", marginTop: 32, lineHeight: 1.6 }}>
-            None of these students lacked intelligence or effort. They lacked a <span style={{ color: "var(--brand)" }}>system</span> and someone checking in to make sure they actually moved.
-          </p>
-        </div>
-      </section>
-
-      {/* SECTION 3: ARE YOU TEMI? */}
-      <section className="landing-section">
-        <div className="ls-container">
-          <h2 className="section-title">If This Sounds Like You, You're Not Alone.</h2>
-          <p className="section-subtitle">
-            You're 19–22. You're in university. You're smart, genuinely, but you're tired of:
-          </p>
-
-          <div className="temi-card">
-            <div className="temi-intro">Are you Temi?</div>
-            <div className="temi-list">
-              <div className="temi-item">
-                <span className="temi-icon">⚠️</span>
-                <span>Watching your mates somehow "make it" online while you're still figuring out where to start</span>
-              </div>
-              <div className="temi-item">
-                <span className="temi-icon">⚠️</span>
-                <span>Asking your parents for money you know they don't really have to spare</span>
-              </div>
-              <div className="temi-item">
-                <span className="temi-icon">⚠️</span>
-                <span>Starting things and not finishing, not because you're lazy, but because nobody gave you a map</span>
-              </div>
-              <div className="temi-item">
-                <span className="temi-icon">⚠️</span>
-                <span>That quiet fear: <em>"Maybe I'm just not built for this."</em></span>
-              </div>
-            </div>
-            <p style={{ fontSize: "15px", color: "var(--gray-900)", fontWeight: 600, borderTop: "1px solid var(--gray-200)", paddingTop: 20, marginTop: 10 }}>
-              You're not. You were never given a clear path. That's what's different here.
+            <h1 className="hero-title">
+              You Don't Need Another Skill.<br />
+              <span style={{ color: 'var(--brand)' }}>You Need Someone to Walk You There.</span>
+            </h1>
+            <p className="hero-subtitle">
+              A clear, step-by-step path from zero to your <strong style={{ color: 'var(--text-main)' }}>first tech job using our proven framework</strong> for young people who are tired of starting over.
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 4: THE MERIT_UP SYSTEM */}
-      <section className="landing-section" style={{ background: "var(--gray-100)" }}>
-        <div className="ls-container">
-          <h2 className="section-title">One Skill. One System. One Mentor With You Every Week.</h2>
-          <p className="section-subtitle">
-            No information dumping. No disappearing after you pay. Just a clear next step, every single week, until you've made your first income online.
-          </p>
-
-          <div className="system-timeline">
-            <div className="timeline-item">
-              <div className="timeline-dot">1</div>
-              <div className="timeline-content">
-                <h4 className="timeline-title">Clarify Your Direction</h4>
-                <p className="timeline-desc">Define what you're actually building toward, so you're not guessing.</p>
-              </div>
+            
+            <div className="hero-cta-group">
+              <button className="hero-btn primary-btn" onClick={onContinue}>
+                Secure My Spot
+                <span className="btn-arrow">→</span>
+              </button>
+              <button className="hero-btn secondary-btn" onClick={onContinue}>
+                Learn More
+              </button>
             </div>
-            <div className="timeline-item">
-              <div className="timeline-dot">2</div>
-              <div className="timeline-content">
-                <h4 className="timeline-title">Build Your Foundation</h4>
-                <p className="timeline-desc">Learn the one skill (copywriting, design, video editing, or social media management) the right way, from someone who's done it.</p>
-              </div>
-            </div>
-            <div className="timeline-item">
-              <div className="timeline-dot">3</div>
-              <div className="timeline-content">
-                <h4 className="timeline-title">Create Your Income System</h4>
-                <p className="timeline-desc">Set up a simple, repeatable way to actually get paid, not just a certificate.</p>
-              </div>
-            </div>
-            <div className="timeline-item">
-              <div className="timeline-dot">4</div>
-              <div className="timeline-content">
-                <h4 className="timeline-title">Grow With Strategy</h4>
-                <p className="timeline-desc">Attract real clients and opportunities, with guidance, not guesswork.</p>
-              </div>
-            </div>
-            <div className="timeline-item">
-              <div className="timeline-dot">5</div>
-              <div className="timeline-content">
-                <h4 className="timeline-title">Sustain Your Freedom</h4>
-                <p className="timeline-desc">Build the habits that keep the income coming after the program ends.</p>
-              </div>
+            <div className="hero-micro">
+              Takes 60 seconds · Cohort 1: 200 spots only
             </div>
           </div>
-
-          <div className="system-summary-box">
-            <h4 style={{ fontSize: "16px", fontWeight: 700, color: "var(--brand)", marginBottom: 6 }}>
-              📅 Program Timeline: 3 Months Total
-            </h4>
-            <p style={{ fontSize: "14px", color: "var(--gray-900)", lineHeight: 1.5 }}>
-              <strong>Learn and earn within 3 months.</strong> Realistic. Honest. Achievable.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 5: WHY THE WAITLIST MATTERS */}
-      <section className="landing-section">
-        <div className="ls-container" style={{ textAlign: "center" }}>
-          <h2 className="section-title">Cohort 1 Is 2000 Spots. That's It.</h2>
-          <p className="section-subtitle">
-            This isn't fake urgency, it's capacity. Weekly mentorship only works if mentors aren't stretched across thousands of students. The first 2000 students get the most attention, the most access, and the best version of this offer we'll ever run.
-          </p>
-          <div className="system-summary-box" style={{ background: "rgba(239, 68, 68, 0.08)", border: "1px solid rgba(239, 68, 68, 0.2)", marginBottom: 36 }}>
-            <p style={{ fontSize: "15px", color: "#f87171", fontWeight: 600 }}>
-              ⚠️ Every day you wait is a day someone else takes the seat that could've been yours.
-            </p>
-          </div>
-          <button className="hero-btn" onClick={onContinue}>
-            Join the Waitlist Now
-          </button>
-        </div>
-      </section>
-
-      {/* SECTION 6: WHAT HAPPENS NEXT */}
-      <section className="landing-section" style={{ background: "var(--gray-100)" }}>
-        <div className="ls-container">
-          <h2 className="section-title">No Confusion About What Comes Next Either.</h2>
-          <p className="section-subtitle">Here is exactly what you can expect when you sign up today:</p>
-
-          <div className="quotes-grid">
-            <div className="quote-card" style={{ display: "flex", gap: 16 }}>
-              <div style={{ fontSize: "24px", color: "var(--brand)", fontWeight: 800 }}>1</div>
-              <div>
-                <h4 style={{ color: "var(--gray-900)", fontSize: "15px", fontWeight: 700, marginBottom: 4 }}>You'll get a personal message</h4>
-                <p style={{ fontSize: "13.5px", color: "var(--gray-500)", lineHeight: 1.5 }}>from our team, a real human, not a bot.</p>
-              </div>
-            </div>
-            <div className="quote-card" style={{ display: "flex", gap: 16 }}>
-              <div style={{ fontSize: "24px", color: "var(--brand)", fontWeight: 800 }}>2</div>
-              <div>
-                <h4 style={{ color: "var(--gray-900)", fontSize: "15px", fontWeight: 700, marginBottom: 4 }}>You'll know exactly what to expect</h4>
-                <p style={{ fontSize: "13.5px", color: "var(--gray-500)", lineHeight: 1.5 }}>clear next steps and program updates.</p>
-              </div>
-            </div>
-            <div className="quote-card" style={{ display: "flex", gap: 16 }}>
-              <div style={{ fontSize: "24px", color: "var(--brand)", fontWeight: 800 }}>3</div>
-              <div>
-                <h4 style={{ color: "var(--gray-900)", fontSize: "15px", fontWeight: 700, marginBottom: 4 }}>You'll join a community</h4>
-                <p style={{ fontSize: "13.5px", color: "var(--gray-500)", lineHeight: 1.5 }}>of students on the same journey, not alone in a group chat.</p>
-              </div>
-            </div>
-            <div className="quote-card" style={{ display: "flex", gap: 16 }}>
-              <div style={{ fontSize: "24px", color: "var(--brand)", fontWeight: 800 }}>4</div>
-              <div>
-                <h4 style={{ color: "var(--gray-900)", fontSize: "15px", fontWeight: 700, marginBottom: 4 }}>You'll start your income journey</h4>
-                <p style={{ fontSize: "13.5px", color: "var(--gray-500)", lineHeight: 1.5 }}>with structure, mentorship, and accountability, not just a video library.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 7: FAQ */}
-      <section className="landing-section">
-        <div className="ls-container">
-          <h2 className="section-title">Frequently Asked Questions</h2>
-          <p className="section-subtitle">Got questions? We've got answers.</p>
-
-          <div className="faq-list">
-            {faqs.map((faq, index) => {
-              const isOpen = openFaq === index;
-              return (
-                <div key={index} className="faq-item" onClick={() => toggleFaq(index)}>
-                  <div className="faq-q">
-                    <span>{faq.q}</span>
-                    <span className="faq-q-icon" style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0)" }}>
-                      ▼
-                    </span>
+          
+          {/* Right Column */}
+          <div className="hero-right marquee-container">
+            <div className="marquee-col" style={{ animation: 'scrollUp 20s linear infinite' }}>
+              {[1,2,3,4].map(i => (
+                <div key={i} className="mockup-card">
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--border-color)' }}></div>
+                    <div style={{ background: 'rgba(255,255,255,0.1)', padding: '4px 8px', borderRadius: 12, fontSize: 10, color: 'var(--text-main)' }}>Live</div>
                   </div>
-                  {isOpen && <div className="faq-a">{faq.a}</div>}
+                  <div style={{ background: 'var(--border-color)', height: 32, borderRadius: 16 }}></div>
                 </div>
-              );
-            })}
+              ))}
+            </div>
+            <div className="marquee-col" style={{ animation: 'scrollUp 25s linear infinite', marginTop: -100 }}>
+              {[1,2,3,4].map(i => (
+                <div key={i} className="mockup-card">
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--brand-light)' }}></div>
+                  </div>
+                  <div style={{ background: 'var(--brand)', height: 32, borderRadius: 16 }}></div>
+                </div>
+              ))}
+            </div>
           </div>
+          
         </div>
       </section>
 
-      {/* SECTION 8: FINAL CTA */}
-      <section className="landing-section" style={{ background: "var(--gray-100)", borderBottom: "none", textAlign: "center" }}>
-        <div className="ls-container">
-          <h2 className="section-title">You Don't Need Luck. You Need a System.</h2>
+      {/* SECTION 2: INTERSTITIAL */}
+      <section className="landing-section responsive-section interstitial">
+        <div className="ls-container text-center">
+          <h2 className="section-title">
+            You've Tried Before. <span className="highlight-pill">That's Not</span> The Problem.
+          </h2>
           <p className="section-subtitle">
-            MeritUp gives you the map. You take the action.
+            You bought the course. You watched the videos. Then life happened: exams, no data, no clients... That's not a "you" problem. That's what happens when someone hands you information and walks away.
           </p>
-          <div className="hero-cta-group" style={{ marginTop: 12 }}>
-            <button className="hero-btn" onClick={onContinue}>
-              Secure My Spot: Cohort 1 (2000 spots)
+        </div>
+      </section>
+
+      {/* SECTION 3: STICKY CARDS */}
+      <section className="landing-section responsive-section sticky-container">
+        <div className="ls-container max-w-1000">
+          <div className="section-header">
+            <div>
+              <span className="eyebrow">If this sounds like you</span>
+              <h2 className="section-title text-left">Are you Temi?</h2>
+            </div>
+            <button className="link-btn" onClick={onContinue}>
+              Skip to Waitlist →
             </button>
-            <span className="hero-microcopy">
-              Free to join · No spam · Founded by Anwo Favour Oluwaseun
-            </span>
+          </div>
+
+          <div className="cards-wrapper">
+            {[
+              { title: "Watching Your Mates", desc: "Somehow 'making it' online while you're still figuring out where to start." },
+              { title: "Asking For Money", desc: "Asking for money you know they don't really have to spare." },
+              { title: "Starting, Not Finishing", desc: "Not because you're lazy, but because nobody gave you a reliable map." },
+              { title: "The Quiet Fear", desc: "That quiet fear: 'Maybe I'm just not built for this.' (Spoiler: You are)." }
+            ].map((item, idx) => (
+              <div key={idx} className="sticky-card" style={{ top: 100 + (idx * 20) }}>
+                <div className="card-left">
+                  <div className="card-num">0{idx + 1}</div>
+                  <h3 className="card-title">{item.title}</h3>
+                </div>
+                <div className="card-right">
+                  <p>{item.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Simple Footer */}
-      <footer style={{ background: "var(--gray-50)", borderTop: "1px solid var(--gray-200)", padding: "30px 24px", textAlign: "center", fontSize: "13px", color: "var(--gray-400)" }}>
-        <div className="ls-container">
-          <p>© {new Date().getFullYear()} MeritUp. All rights reserved.</p>
+      {/* SECTION 4: THE SYSTEM */}
+      <section className="landing-section responsive-section system-section">
+        <div className="ls-container max-w-1000 system-split">
+          <div className="system-left">
+            <h2 className="section-title text-left tight-title">
+              One Skill. <br/>
+              <span style={{ color: 'var(--brand)' }}>One System.</span> <br/>
+              One Mentor.
+            </h2>
+            <p className="system-desc">
+              No information dumping. No disappearing after you pay. Just a clear next step, every single week, until you've landed your first tech job using our proven framework.
+            </p>
+            <div className="badges-row">
+              <div className="sys-badge">📅 4 Months Total (3mo skill, 1mo framework)</div>
+              <div className="sys-badge">🤝 Weekly Mentorship</div>
+            </div>
+          </div>
+          
+          <div className="system-right">
+            {['Clarify Your Direction', 'Build Your Foundation', 'Master The Framework', 'Land Your First Job'].map((step, i) => (
+              <div key={i} className="step-card">
+                <div className="step-num">{i + 1}</div>
+                <div className="step-text">{step}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      {/* SECTION 5: FINAL CTA */}
+      <section className="landing-section responsive-section cta-section">
+        <div className="ls-container max-w-800">
+          <div className="cta-card">
+            <h2 className="section-title text-center">Cohort 1 Is 200 Spots. That's It.</h2>
+            <p className="section-subtitle">
+              This isn't fake urgency, it's capacity. Weekly mentorship only works if mentors aren't stretched across thousands of students. The first 200 students get the most attention and the best version of this offer we'll ever run.
+            </p>
+            <button className="hero-btn primary-btn" onClick={onContinue}>
+              Secure My Spot: Cohort 1 (200 spots)
+            </button>
+            <p className="hero-micro text-center mt-16">Free to join · No spam · Founded by Anwo Favour Oluwaseun</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="footer-content">
+          <div className="footer-copy">© {new Date().getFullYear()} MeritUp. All rights reserved.</div>
+          <div className="footer-links">
+            <span>Terms of Use</span>
+            <span>Help Center</span>
+          </div>
         </div>
       </footer>
+
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes scrollUp {
+          0% { transform: translateY(0); }
+          100% { transform: translateY(-50%); }
+        }
+
+        /* Responsive Utility Classes */
+        .header-flex { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+        .header-brand { display: flex; align-items: center; gap: 12px; }
+        .lh-brand-name { color: var(--text-main); font-size: 20px; font-weight: 900; }
+        .header-actions { display: flex; align-items: center; }
+
+        .responsive-section { padding: 120px 24px; border-bottom: 1px solid var(--border-color); }
+        .hero-section { overflow: hidden; }
+        
+        .hero-split { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; }
+        .hero-left { flex: 1 1 55%; }
+        .hero-right { flex: 1 1 40%; }
+        
+        .hero-badge { display: inline-flex; background: var(--bg-panel); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 50px; font-size: 12px; font-weight: 700; color: var(--brand); margin-bottom: 24px; }
+        .hero-title { font-size: clamp(36px, 5vw, 64px); font-weight: 800; color: var(--text-main); line-height: 1.05; letter-spacing: -1.5px; margin-bottom: 24px; text-align: left; }
+        .hero-subtitle { font-size: 17px; color: var(--text-muted); line-height: 1.6; max-width: 480px; margin-bottom: 40px; text-align: left; }
+        
+        .hero-cta-group { display: flex; gap: 16px; align-items: center; }
+        .hero-btn { padding: 16px 32px; border-radius: 50px; font-weight: 800; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px; }
+        .primary-btn { background: var(--brand); color: #000; }
+        .secondary-btn { background: transparent; color: var(--text-main); border: 1px solid var(--border-color); }
+        .btn-arrow { background: #fff; color: #000; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+        .hero-micro { margin-top: 24px; font-size: 13px; color: var(--text-subtle); }
+
+        .marquee-container { height: 500px; overflow: hidden; display: flex; gap: 20px; justify-content: center; }
+        .marquee-col { display: flex; flex-direction: column; gap: 20px; }
+        .mockup-card { width: 220px; height: 280px; background: var(--bg-panel); border-radius: 24px; border: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: space-between; padding: 16px; }
+
+        .interstitial { background: var(--bg-card); }
+        .text-center { text-align: center; margin: 0 auto; }
+        .highlight-pill { background: var(--brand); color: #000; padding: 4px 12px; border-radius: 8px; display: inline-block; }
+        .section-title { font-size: clamp(32px, 4vw, 48px); color: var(--text-main); line-height: 1.2; margin-bottom: 24px; }
+        .text-left { text-align: left; margin: 8px 0 0; }
+        .section-subtitle { font-size: 18px; color: var(--text-muted); max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+        .sticky-container { background: var(--bg-page); }
+        .max-w-1000 { max-width: 1000px; margin: 0 auto; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 64px; }
+        .eyebrow { font-size: 12px; font-weight: 700; color: var(--brand); text-transform: uppercase; letter-spacing: 1px; }
+        .link-btn { color: var(--brand); background: transparent; border: none; font-size: 16px; font-weight: 600; cursor: pointer; }
+
+        .cards-wrapper { display: flex; flex-direction: column; gap: 24px; }
+        .sticky-card { position: sticky; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 32px; padding: 40px 48px; display: flex; gap: 40px; box-shadow: 0 -10px 40px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .card-left { flex: 1 1 40%; }
+        .card-right { flex: 1 1 60%; background: var(--bg-panel); border-radius: 24px; padding: 32px; display: flex; align-items: center; }
+        .card-num { width: 48px; height: 48px; border-radius: 24px; background: var(--bg-panel); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--brand); font-size: 20px; margin-bottom: 24px; }
+        .card-title { font-size: 24px; font-weight: 700; color: var(--text-main); }
+        .card-right p { font-size: 18px; color: var(--text-muted); line-height: 1.6; margin: 0; }
+
+        .system-section { background: var(--bg-card); }
+        .system-split { display: flex; flex-wrap: wrap; gap: 60px; align-items: center; }
+        .system-left { flex: 1 1 45%; }
+        .system-right { flex: 1 1 45%; display: flex; flex-direction: column; gap: 16px; }
+        .tight-title { font-size: 40px; line-height: 1.1; margin-bottom: 24px; }
+        .system-desc { font-size: 16px; color: var(--text-muted); line-height: 1.6; }
+        .badges-row { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
+        .sys-badge { background: var(--bg-panel); border: 1px solid var(--border-color); padding: 12px 20px; border-radius: 50px; font-size: 13px; color: var(--text-main); font-weight: 600; }
+        .step-card { padding: 20px; background: var(--bg-panel); border-radius: 16px; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 16px; }
+        .step-num { width: 32px; height: 32px; border-radius: 50%; background: var(--brand-light); color: var(--brand); display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0; }
+        .step-text { font-weight: 600; color: var(--text-main); }
+
+        .cta-section { background: var(--bg-page); }
+        .max-w-800 { max-width: 800px; margin: 0 auto; }
+        .cta-card { background: var(--bg-card); padding: 60px 40px; border-radius: 32px; border: 1px solid var(--border-color); box-shadow: var(--shadow-lg); text-align: center; }
+        .mt-16 { margin-top: 16px; }
+
+        .footer { background: var(--bg-page); border-top: 1px solid var(--border-color); padding: 40px 24px; text-align: center; }
+        .footer-content { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; }
+        .footer-copy { font-size: 13px; color: var(--text-subtle); }
+        .footer-links { display: flex; gap: 24px; font-size: 13px; color: var(--text-muted); }
+        .footer-links span { cursor: pointer; }
+
+        /* Media Queries for Mobile */
+        @media (max-width: 768px) {
+          .responsive-section { padding: 60px 20px; }
+          .hero-split { flex-direction: column; text-align: center; gap: 32px; }
+          .hero-left { text-align: center; width: 100%; }
+          .hero-title, .hero-subtitle { text-align: center !important; margin-left: auto; margin-right: auto; }
+          .hero-cta-group { flex-direction: column; width: 100%; }
+          .hero-btn { width: 100%; justify-content: center; }
+          .marquee-container { height: 300px; }
+          .mockup-card { width: 160px; height: 200px; }
+          
+          .section-header { flex-direction: column; gap: 16px; align-items: flex-start; margin-bottom: 32px; }
+          .sticky-card { flex-direction: column; padding: 24px; gap: 24px; position: relative; top: auto !important; margin-bottom: 24px; }
+          .card-num { margin-bottom: 16px; }
+          .card-right { padding: 20px; }
+          
+          .system-split { flex-direction: column; gap: 32px; }
+          .tight-title { font-size: 32px; }
+          
+          .cta-card { padding: 40px 20px; }
+          .section-title { font-size: 28px; }
+          
+          .footer-content { flex-direction: column; gap: 16px; }
+          
+          .lh-brand-name { display: none; } /* hide text on very small screens to fit buttons */
+          .lh-btn { padding: 8px 16px; font-size: 12px; }
+        }
+      `}} />
     </div>
   );
 }

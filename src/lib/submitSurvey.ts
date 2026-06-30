@@ -5,7 +5,7 @@ export interface WaitlistData {
   phone_number: string;
   email?: string;
   state: string;
-  university_level?: string;
+  university_level?: string; // Kept for type compatibility but unused
   skill_interest?: string;
   current_status?: string;
   hours_per_week?: string;
@@ -85,7 +85,6 @@ export async function submitWaitlist(data: WaitlistData): Promise<WaitlistResult
       phone: userPhone,
       email: data.email?.trim() || null,
       state: data.state,
-      university_level: data.university_level,
       skill_interest: data.skill_interest,
       current_status: data.current_status,
       hours_per_week: data.hours_per_week,
@@ -141,9 +140,11 @@ export async function submitPartner(data: PartnerData): Promise<PartnerResult> {
   const submitted_at = new Date().toISOString();
   // Using phone as fallback referral code, but they can get a custom one later or maybe use their first name. 
   // Let's use their first name + last 4 digits of phone as their referral code
+  // Let's use their first name + last 4 digits of phone + random characters to ensure absolute uniqueness
   const firstName = data.name.split(" ")[0].toUpperCase();
   const phoneSuffix = data.phone.trim().slice(-4);
-  const myReferralCode = `${firstName}${phoneSuffix}`;
+  const randomSuffix = Math.random().toString(36).substring(2, 5).toUpperCase();
+  const myReferralCode = `${firstName}${phoneSuffix}${randomSuffix}`;
 
   // Check if phone or email is already registered in partners
   const { data: existingUser } = await supabase
