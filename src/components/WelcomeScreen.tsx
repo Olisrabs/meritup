@@ -60,7 +60,7 @@ export default function WelcomeScreen({ onContinue }: { onContinue: () => void }
         <div className="hero-glow" />
         <div className="ls-container" style={{ position: "relative", zIndex: 1 }}>
           <div className="hero-badge">
-            🚀 Cohort 1: 200 Spots Only
+            🚀 Cohort 1: 2000 Spots Only
           </div>
           <h1 className="hero-title">
             You Don't Need Another Skill.<br />
@@ -69,14 +69,14 @@ export default function WelcomeScreen({ onContinue }: { onContinue: () => void }
             </span>
           </h1>
           <p className="hero-subtitle">
-            A clear, step-by-step path from zero to your first income online for Nigerian university students who are tired of starting over.
+            A clear, step-by-step path from zero to your first income online for university students who are tired of starting over.
           </p>
           <div className="hero-cta-group">
             <button className="hero-btn" onClick={onContinue}>
               Secure My Spot
             </button>
             <span className="hero-microcopy">
-              Takes 60 seconds · Cohort 1: 200 spots only
+              Takes 60 seconds · Cohort 1: 2000 spots only
             </span>
           </div>
         </div>
@@ -214,9 +214,9 @@ export default function WelcomeScreen({ onContinue }: { onContinue: () => void }
       {/* SECTION 5: WHY THE WAITLIST MATTERS */}
       <section className="landing-section">
         <div className="ls-container" style={{ textAlign: "center" }}>
-          <h2 className="section-title">Cohort 1 Is 200 Spots. That's It.</h2>
+          <h2 className="section-title">Cohort 1 Is 2000 Spots. That's It.</h2>
           <p className="section-subtitle">
-            This isn't fake urgency, it's capacity. Weekly mentorship only works if mentors aren't stretched across thousands of students. The first 200 students get the most attention, the most access, and the best version of this offer we'll ever run.
+            This isn't fake urgency, it's capacity. Weekly mentorship only works if mentors aren't stretched across thousands of students. The first 2000 students get the most attention, the most access, and the best version of this offer we'll ever run.
           </p>
           <div className="system-summary-box" style={{ background: "rgba(239, 68, 68, 0.08)", border: "1px solid rgba(239, 68, 68, 0.2)", marginBottom: 36 }}>
             <p style={{ fontSize: "15px", color: "#f87171", fontWeight: 600 }}>
@@ -302,7 +302,7 @@ export default function WelcomeScreen({ onContinue }: { onContinue: () => void }
           </p>
           <div className="hero-cta-group" style={{ marginTop: 12 }}>
             <button className="hero-btn" onClick={onContinue}>
-              Secure My Spot: Cohort 1 (200 spots)
+              Secure My Spot: Cohort 1 (2000 spots)
             </button>
             <span className="hero-microcopy">
               Free to join · No spam · Founded by Anwo Favour Oluwaseun

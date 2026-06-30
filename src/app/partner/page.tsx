@@ -107,7 +107,7 @@ export default function PartnerPage() {
             <div className="ls-container">
               <h2 className="section-title">What is MERIT_UP?</h2>
               <p className="section-subtitle">
-                MERIT_UP is a 3-month program teaching Nigerian university students copywriting, design, video editing, or social media management, with weekly mentorship, not just videos. Students go from confused and broke to having a real, working income system.
+                MERIT_UP is a 3-month program teaching university students copywriting, design, video editing, or social media management, with weekly mentorship, not just videos. Students go from confused and broke to having a real, working income system.
               </p>
               <div className="system-summary-box" style={{ marginTop: 24 }}>
                 <p style={{ fontSize: "16px", color: "var(--gray-900)", fontWeight: 600 }}>

@@ -8,7 +8,7 @@ const plusJakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-pl
 export const metadata: Metadata = {
   title: "MeritUp Waitlist: One Skill. One System. One Mentor.",
   description:
-    "A clear, step-by-step path from zero to your first income online. MeritUp connects Nigerian university students with weekly mentorship and a proven earning system.",
+    "A clear, step-by-step path from zero to your first income online. MeritUp connects university students with weekly mentorship and a proven earning system.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

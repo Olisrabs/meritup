@@ -22,7 +22,7 @@ const sizeOptions = [
 ];
 
 const audienceOptions = [
-  "Nigerian university students", "Nigerian youth (general)", "Mixed/international", "Not sure"
+  "University students", "Youth (general)", "Mixed/international", "Not sure"
 ];
 
 const promotedOptions = [
