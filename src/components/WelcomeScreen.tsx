@@ -26,11 +26,11 @@ export default function WelcomeScreen({ onContinue }: { onContinue: () => void }
     },
     {
       q: "I'm a student, I don't have time.",
-      a: "The program is built around a realistic 3-month learn, 3-month earn structure, with weekly (not daily) mentor sessions designed to fit around lectures and exams.",
+      a: "The program is built around a realistic 3-month structure, with weekly (not daily) mentor sessions designed to fit around lectures and exams.",
     },
     {
       q: "How long until I actually see results?",
-      a: "Most students start building their income system within the first 3 months and move into real earning by month 4–6, depending on consistency.",
+      a: "Most students start building their income system within the first few weeks and move into real earning by month 3, depending on consistency.",
     },
     {
       q: "What if I start and don't finish, like before?",
@@ -106,7 +106,7 @@ export default function WelcomeScreen({ onContinue }: { onContinue: () => void }
               <p className="quote-text">"I have my page ready but nobody has purchased anything."</p>
             </div>
             <div className="quote-card">
-              <p className="quote-text">"I learned the skill for 6 months, still no jobs."</p>
+              <p className="quote-text">"I learned the skill for 3 months, still no jobs."</p>
             </div>
             <div className="quote-card">
               <p className="quote-text">"I don't have the money to start, but I have the ideas."</p>
@@ -202,10 +202,10 @@ export default function WelcomeScreen({ onContinue }: { onContinue: () => void }
 
           <div className="system-summary-box">
             <h4 style={{ fontSize: "16px", fontWeight: 700, color: "var(--brand)", marginBottom: 6 }}>
-              📅 Program Timeline: 6 Months Total
+              📅 Program Timeline: 3 Months Total
             </h4>
             <p style={{ fontSize: "14px", color: "var(--gray-900)", lineHeight: 1.5 }}>
-              <strong>3 months to learn. 3 months to earn.</strong> Realistic. Honest. Achievable.
+              <strong>Learn and earn within 3 months.</strong> Realistic. Honest. Achievable.
             </p>
           </div>
         </div>
