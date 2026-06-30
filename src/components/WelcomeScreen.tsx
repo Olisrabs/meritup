@@ -11,7 +11,7 @@ interface FAQItem {
 export default function WelcomeScreen({ onContinue }: { onContinue: () => void }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [isDark, setIsDark] = useState(true);
-  const [timeLeft, setTimeLeft] = useState({ days: 3, hours: 14, minutes: 23, seconds: 59 });
+  const [timeLeft, setTimeLeft] = useState({ days: 46, hours: 14, minutes: 23, seconds: 59 });
 
   useEffect(() => {
     const timer = setInterval(() => {
