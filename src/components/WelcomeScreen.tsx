@@ -13,23 +13,29 @@ export default function WelcomeScreen({ onContinue }: { onContinue: () => void }
   const [isDark, setIsDark] = useState(true);
   const [timeLeft, setTimeLeft] = useState({ days: 46, hours: 14, minutes: 23, seconds: 59 });
 
+  const pad = (n: number) => {
+    return n < 10 ? "0" + n : "" + n;
+  };
+
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(prev => {
-        let { days, hours, minutes, seconds } = prev;
-        if (seconds > 0) { seconds--; }
-        else {
-          seconds = 59;
-          if (minutes > 0) { minutes--; }
-          else {
-            minutes = 59;
-            if (hours > 0) { hours--; }
-            else { hours = 23; if (days > 0) days--; }
-          }
-        }
-        return { days, hours, minutes, seconds };
-      });
-    }, 1000);
+    const TARGET_DATE = new Date("2026-08-16T00:00:00Z");
+    
+    const updateTimer = () => {
+      const difference = +TARGET_DATE - +new Date();
+      if (difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+          minutes: Math.floor((difference / 1000 / 60) % 60),
+          seconds: Math.floor((difference / 1000) % 60),
+        });
+      } else {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      }
+    };
+
+    updateTimer();
+    const timer = setInterval(updateTimer, 1000);
     return () => clearInterval(timer);
   }, []);
 
@@ -74,8 +80,8 @@ export default function WelcomeScreen({ onContinue }: { onContinue: () => void }
           
           {/* Left Column */}
           <div className="hero-left">
-            <div className="hero-badge">
-              🚀 Cohort 1: 200 Spots Only | {String(timeLeft.days).padStart(2, '0')}:{String(timeLeft.hours).padStart(2, '0')}:{String(timeLeft.minutes).padStart(2, '0')}:{String(timeLeft.seconds).padStart(2, '0')}
+            <div className="hero-badge" suppressHydrationWarning>
+              🚀 Cohort 1: 200 Spots Only | {pad(timeLeft.days)}:{pad(timeLeft.hours)}:{pad(timeLeft.minutes)}:{pad(timeLeft.seconds)}
             </div>
             <h1 className="hero-title">
               You Don't Need Another Skill.<br />
@@ -99,31 +105,6 @@ export default function WelcomeScreen({ onContinue }: { onContinue: () => void }
             </div>
           </div>
           
-          {/* Right Column */}
-          <div className="hero-right marquee-container">
-            <div className="marquee-col" style={{ animation: 'scrollUp 20s linear infinite' }}>
-              {[1,2,3,4].map(i => (
-                <div key={i} className="mockup-card">
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--border-color)' }}></div>
-                    <div style={{ background: 'rgba(255,255,255,0.1)', padding: '4px 8px', borderRadius: 12, fontSize: 10, color: 'var(--text-main)' }}>Live</div>
-                  </div>
-                  <div style={{ background: 'var(--border-color)', height: 32, borderRadius: 16 }}></div>
-                </div>
-              ))}
-            </div>
-            <div className="marquee-col" style={{ animation: 'scrollUp 25s linear infinite', marginTop: -100 }}>
-              {[1,2,3,4].map(i => (
-                <div key={i} className="mockup-card">
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--brand-light)' }}></div>
-                  </div>
-                  <div style={{ background: 'var(--brand)', height: 32, borderRadius: 16 }}></div>
-                </div>
-              ))}
-            </div>
-          </div>
-          
         </div>
       </section>
 
@@ -139,7 +120,36 @@ export default function WelcomeScreen({ onContinue }: { onContinue: () => void }
         </div>
       </section>
 
-      {/* SECTION 3: STICKY CARDS */}
+      {/* SECTION 3: SKILLS WE'RE OFFERING */}
+      <section className="landing-section responsive-section skills-section">
+        <div className="ls-container max-w-1000">
+          <div className="text-center mb-48">
+            <span className="eyebrow">Skills We're Offering</span>
+            <h2 className="section-title">Pick Your Path to Independence</h2>
+            <p className="section-subtitle">
+              We teach high-income skills that businesses are actively paying for right now, paired with weekly mentorship so you never get stuck.
+            </p>
+          </div>
+
+          <div className="skills-grid">
+            {[
+              { title: "Affiliate Marketing", desc: "Learn to promote high-value digital products and earn commissions on every sale you generate.", icon: "💸" },
+              { title: "Social Media Management", desc: "Master the art of growing brands, managing online communities, and creating content that drives results.", icon: "📱" },
+              { title: "Video Editing", desc: "Turn raw footage into highly engaging short-form and long-form video content that commands attention.", icon: "🎬" },
+              { title: "Graphic Design", desc: "Create stunning, high-converting visual designs, brand identity assets, and marketing materials.", icon: "🎨" },
+              { title: "Web Development", desc: "Build responsive, lightning-fast websites and web applications using modern programming tools.", icon: "💻" }
+            ].map((skill, idx) => (
+              <div key={idx} className="skill-card">
+                <div className="skill-icon">{skill.icon}</div>
+                <h3 className="skill-title">{skill.title}</h3>
+                <p className="skill-desc">{skill.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 4: STICKY CARDS */}
       <section className="landing-section responsive-section sticky-container">
         <div className="ls-container max-w-1000">
           <div className="section-header">
@@ -173,7 +183,7 @@ export default function WelcomeScreen({ onContinue }: { onContinue: () => void }
         </div>
       </section>
 
-      {/* SECTION 4: THE SYSTEM */}
+      {/* SECTION 5: THE SYSTEM */}
       <section className="landing-section responsive-section system-section">
         <div className="ls-container max-w-1000 system-split">
           <div className="system-left">
@@ -202,7 +212,7 @@ export default function WelcomeScreen({ onContinue }: { onContinue: () => void }
         </div>
       </section>
       
-      {/* SECTION 5: FINAL CTA */}
+      {/* SECTION 6: FINAL CTA */}
       <section className="landing-section responsive-section cta-section">
         <div className="ls-container max-w-800">
           <div className="cta-card">
@@ -221,7 +231,7 @@ export default function WelcomeScreen({ onContinue }: { onContinue: () => void }
       {/* Footer */}
       <footer className="footer">
         <div className="footer-content">
-          <div className="footer-copy">© {new Date().getFullYear()} MeritUp. All rights reserved.</div>
+          <div className="footer-copy" suppressHydrationWarning>© {new Date().getFullYear()} MeritUp. All rights reserved.</div>
           <div className="footer-links">
             <span>Terms of Use</span>
             <span>Help Center</span>
@@ -244,19 +254,19 @@ export default function WelcomeScreen({ onContinue }: { onContinue: () => void }
         .responsive-section { padding: 120px 24px; border-bottom: 1px solid var(--border-color); }
         .hero-section { overflow: hidden; }
         
-        .hero-split { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; }
-        .hero-left { flex: 1 1 55%; }
-        .hero-right { flex: 1 1 40%; }
+        .hero-split { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; justify-content: center; }
+        .hero-left { flex: 1 1 100%; display: flex; flex-direction: column; align-items: center; text-align: center; }
         
         .hero-badge { display: inline-flex; background: var(--bg-panel); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 50px; font-size: 12px; font-weight: 700; color: var(--brand); margin-bottom: 24px; }
-        .hero-title { font-size: clamp(36px, 5vw, 64px); font-weight: 800; color: var(--text-main); line-height: 1.05; letter-spacing: -1.5px; margin-bottom: 24px; text-align: left; }
-        .hero-subtitle { font-size: 17px; color: var(--text-muted); line-height: 1.6; max-width: 480px; margin-bottom: 40px; text-align: left; }
+        .hero-title { font-size: clamp(36px, 5vw, 64px); font-weight: 800; color: var(--text-main); line-height: 1.05; letter-spacing: -1.5px; margin-bottom: 24px; text-align: center; }
+        .hero-subtitle { font-size: 17px; color: var(--text-muted); line-height: 1.6; max-width: 600px; margin-bottom: 40px; text-align: center; }
         
-        .hero-cta-group { display: flex; gap: 16px; align-items: center; }
+        .hero-cta-group { display: flex; gap: 16px; align-items: center; justify-content: center; }
         .hero-btn { padding: 16px 32px; border-radius: 50px; font-weight: 800; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px; }
         .primary-btn { background: var(--brand); color: #000; }
         .secondary-btn { background: transparent; color: var(--text-main); border: 1px solid var(--border-color); }
-        .btn-arrow { background: #fff; color: #000; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+        .btn-arrow { color: inherit; font-size: 18px; margin-left: 6px; display: inline-block; transition: transform 0.2s; }
+        .primary-btn:hover .btn-arrow { transform: translateX(4px); }
         .hero-micro { margin-top: 24px; font-size: 13px; color: var(--text-subtle); }
 
         .marquee-container { height: 500px; overflow: hidden; display: flex; gap: 20px; justify-content: center; }
@@ -265,10 +275,20 @@ export default function WelcomeScreen({ onContinue }: { onContinue: () => void }
 
         .interstitial { background: var(--bg-card); }
         .text-center { text-align: center; margin: 0 auto; }
+        .mb-48 { margin-bottom: 48px; }
         .highlight-pill { background: var(--brand); color: #000; padding: 4px 12px; border-radius: 8px; display: inline-block; }
         .section-title { font-size: clamp(32px, 4vw, 48px); color: var(--text-main); line-height: 1.2; margin-bottom: 24px; }
         .text-left { text-align: left; margin: 8px 0 0; }
         .section-subtitle { font-size: 18px; color: var(--text-muted); max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+        /* Skills Grid Styles */
+        .skills-section { background: var(--bg-page); }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; width: 100%; margin-top: 32px; }
+        .skill-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 24px; padding: 32px; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; gap: 12px; text-align: left; }
+        .skill-card:hover { transform: translateY(-4px); border-color: var(--brand); box-shadow: var(--shadow-brand); }
+        .skill-icon { font-size: 32px; margin-bottom: 8px; }
+        .skill-title { font-size: 20px; font-weight: 700; color: var(--text-main); }
+        .skill-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
 
         .sticky-container { background: var(--bg-page); }
         .max-w-1000 { max-width: 1000px; margin: 0 auto; }

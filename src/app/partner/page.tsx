@@ -1,16 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
+import PartnerForm from "@/components/PartnerForm";
+import SuccessScreen from "@/components/SuccessScreen";
+import { submitPartner } from "@/lib/submitSurvey";
 import type { PartnerData } from "@/lib/submitSurvey";
-
-const PartnerForm = dynamic(() => import("@/components/PartnerForm"), {
-  ssr: false,
-});
-
-const SuccessScreen = dynamic(() => import("@/components/SuccessScreen"), {
-  ssr: false,
-});
 
 const initial: PartnerData = {
   name: "",
@@ -48,7 +42,6 @@ export default function PartnerPage() {
     setSubmitting(true);
     setSubmitError(null);
     try {
-      const { submitPartner } = await import("@/lib/submitSurvey");
       const result = await submitPartner(formData);
       setMyReferralCode(result.myReferralCode);
       next(); // advance to SuccessScreen

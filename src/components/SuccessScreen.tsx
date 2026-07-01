@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AppHeader from "./AppHeader";
 
 export default function SuccessScreen({
@@ -21,7 +21,14 @@ export default function SuccessScreen({
   const firstName = name ? name.split(" ")[0] : "";
   const greeting = firstName ? `You're in, ${firstName}! 🎉` : "You're in! 🎉";
 
-  const baseUrl = typeof window !== "undefined" ? window.location.origin : "https://meritup.com";
+  const [baseUrl, setBaseUrl] = useState("https://meritup.com");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setBaseUrl(window.location.origin);
+    }
+  }, []);
+
   const referralLink = referralCode ? `${baseUrl}?ref=${referralCode}` : "";
 
   const handleCopy = async () => {
@@ -37,7 +44,9 @@ export default function SuccessScreen({
 
   const handleCopyCode = async () => {
     if (!referralCode) return;
-    const writeup = `Join the MeritUp waitlist to get a clear, step-by-step path to your first income online with weekly mentorship! Use my phone number "${referralCode}" as your referral code when you sign up at: ${baseUrl}`;
+    const writeup = isPartner
+      ? `Hey! If you want to learn digital skills with weekly mentorship and a clear path to landing your first tech job, join the MeritUp waitlist using my link: ${referralLink}`
+      : `Join the MeritUp waitlist to get a clear, step-by-step path to your first income online with weekly mentorship! Use my phone number "${referralCode}" as your referral code when you sign up at: ${baseUrl}`;
     try {
       await navigator.clipboard.writeText(writeup);
       setCopiedCode(true);
@@ -56,8 +65,52 @@ export default function SuccessScreen({
       </div>
       <h1 className="success-title">You're In the Queue.</h1>
       <p className="success-sub" style={{ maxWidth: "420px", marginBottom: "24px" }}>
-        We're reviewing your application now. Once approved, you'll receive:
+        We're reviewing your application now. Once approved, you'll receive a confirmation email.
       </p>
+
+      {/* Referral share box for Partner */}
+      {referralLink && (
+        <div className="referral-share" style={{ maxWidth: "400px", margin: "0 auto 24px" }}>
+          <div className="referral-share-label">Your Partner Referral Link</div>
+          <div className="referral-share-title">
+            Share your unique link and earn 15% commission on every student who enrolls! 💸
+          </div>
+          <div className="referral-link-row">
+            <input
+              readOnly
+              className="referral-link-input"
+              value={referralLink}
+              onClick={(e) => (e.target as HTMLInputElement).select()}
+            />
+            <button className="copy-btn" onClick={handleCopy}>
+              {copied ? "✓ Copied!" : "Copy"}
+            </button>
+          </div>
+          <div className="referral-share-hint">
+            Your code: <strong style={{ color: "var(--brand)" }}>{referralCode}</strong>
+            <button 
+              onClick={handleCopyCode} 
+              style={{
+                background: "var(--brand-light)",
+                border: "1px solid rgba(223, 171, 46, 0.3)",
+                color: "var(--brand)",
+                cursor: "pointer",
+                fontSize: "10px",
+                fontWeight: 700,
+                padding: "2px 8px",
+                borderRadius: "4px",
+                marginLeft: "6px",
+                display: "inline-flex",
+                alignItems: "center",
+                transition: "all 0.15s",
+              }}
+            >
+              {copiedCode ? "✓ Copied Invite!" : "Copy Invite Text"}
+            </button>
+            <div style={{ marginTop: 6 }}>Use this invite text to share directly on WhatsApp or social media.</div>
+          </div>
+        </div>
+      )}
       
       <div style={{ 
         textAlign: "left", 
@@ -71,7 +124,7 @@ export default function SuccessScreen({
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "14px", color: "var(--gray-900)", marginBottom: 12 }}>
           <span style={{ color: "var(--brand)", fontWeight: "bold" }}>✦</span>
-          <span>Your unique referral link</span>
+          <span>Your unique referral link (Ready above!)</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "14px", color: "var(--gray-900)", marginBottom: 12 }}>
           <span style={{ color: "var(--brand)", fontWeight: "bold" }}>✦</span>

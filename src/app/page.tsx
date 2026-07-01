@@ -2,16 +2,10 @@
 
 import { useState, useEffect } from "react";
 import WelcomeScreen from "@/components/WelcomeScreen";
-import dynamic from "next/dynamic";
+import WaitlistForm from "@/components/WaitlistForm";
+import SuccessScreen from "@/components/SuccessScreen";
+import { submitWaitlist } from "@/lib/submitSurvey";
 import type { WaitlistData } from "@/lib/submitSurvey";
-
-const WaitlistForm = dynamic(() => import("@/components/WaitlistForm"), {
-  ssr: false,
-});
-
-const SuccessScreen = dynamic(() => import("@/components/SuccessScreen"), {
-  ssr: false,
-});
 
 const initial: WaitlistData = {
   name: "",
@@ -39,15 +33,6 @@ export default function Home() {
     }
   }, []);
 
-  // Prefetch the submission script and Supabase client when the user enters the form step
-  useEffect(() => {
-    if (step === 1) {
-      import("@/lib/submitSurvey").catch((err) => {
-        console.error("Failed to prefetch submitSurvey module:", err);
-      });
-    }
-  }, [step]);
-
   const update = (field: string, value: unknown) =>
     setFormData((prev) => ({ ...prev, [field]: value }));
 
@@ -59,7 +44,6 @@ export default function Home() {
     setSubmitError(null);
     setIsDuplicate(false);
     try {
-      const { submitWaitlist } = await import("@/lib/submitSurvey");
       const result = await submitWaitlist(formData);
       setMyReferralCode(result.myReferralCode);
       next(); // advance to SuccessScreen
